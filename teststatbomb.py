@@ -1,4 +1,4 @@
-#import packages
+#import packages (statsbombpy, mplsoccer & highlight_text need to be installed w/ "pip install" command)
 from statsbombpy import sb
 import pandas as pd
 from mplsoccer import Pitch
