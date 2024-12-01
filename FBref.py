@@ -65,17 +65,23 @@ def scrape_club_players(club_url):
 def scrape_stats_player(player_url):
 
     """
-    Get the statistics for the player given by player_url in FBref
+    Get the statistics for the player given by player_url in FBref for the past 5 seasons
     """
-
+    player_name = player_url.split("/")[-1].replace("-Stats---All-Competitions", "").replace("-", " ")
+    seasons_to_keep = ['2020-2021', '2021-2022', '2022-2023', '2023-2024', '2024-2025']
+    
     response = requests.get(player_url)
     soup = BeautifulSoup(response.text, 'html.parser')
 
     # Get the table that contains the player's stats
     tables = pd.read_html(response.text)
     stats_table=tables[1]
-        
+    stats_table = stats_table[stats_table[('Unnamed: 0_level_0', 'Season')].isin(seasons_to_keep)]
+    stats_table[('Unnamed: -1_level_0','Player')]=player_name
+    new_order = [('Unnamed: -1_level_0', 'Player')] + list(stats_table.columns[:-1])
+    stats_table = stats_table[new_order]
+       
     return(stats_table)
 
-#print(scrape_stats_player("https://fbref.com/en/players/e06683ca/all_comps/Virgil-van-Dijk-Stats---All-Competitions").head())
+print(scrape_stats_player("https://fbref.com/en/players/e06683ca/all_comps/Virgil-van-Dijk-Stats---All-Competitions"))
 
