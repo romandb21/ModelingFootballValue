@@ -31,23 +31,22 @@ def get_club_urls(league_url):
 
 
 def scrape_club_players(club_url):
+    
     """
-    Get the table that contains all players of the club given by club_url
+    Get the links for all players of the club given by club_url in FBref
     """
+    
     response = requests.get(club_url)
     soup = BeautifulSoup(response.text, 'html.parser')
 
-    # Extraire la table des joueurs
+    # Get the table that contains all players
     players_table = soup.find("table", id="stats_standard_combined")
-    
     if not players_table:
-        print("Table des joueurs non trouvée !")
+        print("Players table not found!")
         return []
 
-    # Liste pour stocker les liens des joueurs
+    # List to keep players links
     player_links = []
-
-    # Parcourir les lignes de la table pour extraire les liens
     for row in players_table.find_all("tr"):
         player_cell = row.find("th", {"data-stat": "player"})  # Trouver la cellule "player"
         if player_cell and player_cell.find("a"):
@@ -61,4 +60,22 @@ def scrape_club_players(club_url):
     return player_links
 
  
-print (scrape_club_players("https://fbref.com/en/squads/822bd0ba/2024-2025/all_comps/Liverpool-Stats-All-Competitions"))
+# print (scrape_club_players("https://fbref.com/en/squads/822bd0ba/2024-2025/all_comps/Liverpool-Stats-All-Competitions"))
+
+def scrape_stats_player(player_url):
+
+    """
+    Get the statistics for the player given by player_url in FBref
+    """
+
+    response = requests.get(player_url)
+    soup = BeautifulSoup(response.text, 'html.parser')
+
+    # Get the table that contains the player's stats
+    tables = pd.read_html(response.text)
+    stats_table=tables[1]
+        
+    return(stats_table)
+
+#print(scrape_stats_player("https://fbref.com/en/players/e06683ca/all_comps/Virgil-van-Dijk-Stats---All-Competitions").head())
+
