@@ -4,7 +4,7 @@ import numpy as np
 from math import sqrt
 
 # Define the directory where the CSV files will be downloaded
-output_dir = "/home/onyxia/work/ModelingFootballValue"
+output_dir = os.path.dirname(os.path.abspath(__file__))
 
 # Ensure the directory exists; create it if it doesn't
 os.makedirs(output_dir, exist_ok=True)
@@ -59,12 +59,58 @@ if not already_downloaded:
 players_df = load_csv_data("players.csv")
 transfers_df = load_csv_data("transfers.csv")
 valuations_df = load_csv_data("player_valuations.csv")
+clubs_df = load_csv_data("clubs.csv")
+
 
 # Filter transfers where the transfer fee is at least 100,000 and in the previous ten seasons
 relevant_transfers = transfers_df[
     (transfers_df["transfer_fee"] >= 100000) &
     (transfers_df["transfer_season"].isin(["14/15", "15/16", "16/17", "17/18", "18/19", "20/21", "21/22", "22/23", "23/24", "24/25"]))
 ]
+
+# Define the top 7 UEFA league IDs
+top_10_uefa_leagues = ["GB1", "ES1", "IT1", "L1", "FR1", "PT1", "NL1"]
+
+# Filter clubs that are in the top 7 leagues
+top_clubs = clubs_df[clubs_df["domestic_competition_id"].isin(top_10_uefa_leagues)]
+
+# Print the shape before the merge
+print("Before Merge:", relevant_transfers.shape)
+
+# Merge relevant transfers with the top_clubs data on 'club_id' for both 'from' and 'to' clubs
+relevant_transfers = relevant_transfers.merge(
+    top_clubs[['club_id', 'domestic_competition_id']],  # Only keeping the necessary columns
+    left_on='from_club_id',  # Merge using the 'from_club_id' column
+    right_on='club_id',  # Match with the 'club_id' column in top_clubs
+    how='inner'
+).merge(
+    top_clubs[['club_id', 'domestic_competition_id']],  # Only keeping the necessary columns
+    left_on='to_club_id',  # Merge using the 'to_club_id' column
+    right_on='club_id',  # Match with the 'club_id' column in top_clubs
+    how='inner',
+    suffixes=('_from', '_to')  # Add suffixes to distinguish columns from both sides
+)
+
+# Drop unnecessary columns introduced by the merge
+relevant_transfers.drop(columns=['club_id_from', 'club_id_to'], inplace=True)
+
+# Rename columns for clarity, if needed
+relevant_transfers.rename(
+    columns={
+        'domestic_competition_id_from': 'from_domestic_competition_id',
+        'domestic_competition_id_to': 'to_domestic_competition_id'
+    },
+    inplace=True
+)
+
+# Print the shape after the merge
+print("After Merge:", relevant_transfers.shape)
+
+# Print the first few rows to check the result
+print(relevant_transfers.head())
+
+
+
 
 
 def calculate_mean_difference(df, col1, col2):
@@ -158,6 +204,8 @@ def calculate_club_metrics(df, club_col):
         
         # Metrics
         corr = group['transfer_fee'].corr(group['market_value_in_eur'])
+        if pd.isna(corr):
+            corr = 0  # Assign a default value
         ratio = group['transfer_fee'] / group['market_value_in_eur']
         mean_ratio = ratio.mean()
         ratio_std = ratio.std()
@@ -184,3 +232,10 @@ seller_metrics = seller_metrics.sort_values(by='correlation', ascending=False)
 buyer_metrics = buyer_metrics.sort_values(by='correlation', ascending=False)
 print(seller_metrics.head())
 print(buyer_metrics.head())
+
+
+
+
+
+
+
