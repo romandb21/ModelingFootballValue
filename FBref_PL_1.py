@@ -142,8 +142,9 @@ def main(season):
         save_progress(progress)
     
     # Load existing players
+    file_path = "/home/onyxia/work/ModelingFootballValue/players_stats.csv"
     try:
-        existing_data = pd.read_csv("/home/onyxia/work/ModelingFootballValue/players_stats.csv")
+        existing_data = pd.read_csv(file_path, header=[0, 1], low_memory=False)
         existing_players = set(existing_data[('Unnamed: -1_level_0', 'Player')].unique())
     except FileNotFoundError:
         existing_data = pd.DataFrame()
@@ -208,17 +209,20 @@ def main(season):
 
 def load_existing_data():
     """Load existing players_stats.csv"""
+    file_path = "/home/onyxia/work/ModelingFootballValue/players_stats.csv"
     try:
-        return pd.read_csv("/home/onyxia/work/ModelingFootballValue/players_stats.csv")
-    except FileNotFoundError:
-        print("No existing file found. Starting fresh.")
-        return pd.DataFrame()
+        df = pd.read_csv(file_path, header=[0, 1], low_memory=False)
+        print("Loaded with multi-level headers successfully.")
+    except Exception as e:
+        print(f"Error loading file: {e}")
+        df = pd.DataFrame()
 
 
 def main_with_existing_data(season):
     # Load existing data
+    file_path = "/home/onyxia/work/ModelingFootballValue/players_stats.csv"
     try:
-        existing_data = pd.read_csv("/home/onyxia/work/ModelingFootballValue/players_stats.csv")
+        existing_data = pd.read_csv(file_path, header=[0, 1], low_memory=False)
         existing_players = set(existing_data[('Unnamed: -1_level_0', 'Player')].unique())
     except FileNotFoundError:
         existing_data = pd.DataFrame()

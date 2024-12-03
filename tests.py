@@ -11,9 +11,21 @@ tables = pd.read_html(response.text)
 
 print(tables[0].head())
 """
-player_url=("https://fbref.com/en/players/0426b987/all_comps/Ranel-Young-Stats---All-Competitions")
-player_name = player_url.split("/")[-1].replace("-Stats---All-Competitions", "").replace("-", " ")
-print(player_name)
 
+# Load the CSV with multi-level headers
+file_path = "/home/onyxia/work/ModelingFootballValue/players_stats.csv"
+try:
+    df = pd.read_csv(file_path, header=[0, 1], low_memory=False)
+    print("Loaded with multi-level headers successfully.")
+except Exception as e:
+    print(f"Error loading file: {e}")
+    df = pd.DataFrame()  # Fallback to an empty DataFrame
 
-#dans la version de chatgpt pour les différentes saisons faire un test de scrap_club_players
+player_col = ('Unnamed: -1_level_0', 'Player')
+if player_col in df.columns:
+    print(f"Player column found: {player_col}")
+    existing_players = set(df[player_col].dropna().unique())
+    print(f"Loaded {len(existing_players)} existing players.")
+else:
+    print("Player column not found.")
+
