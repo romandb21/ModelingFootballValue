@@ -100,7 +100,7 @@ def main():
     pl_url = "https://fbref.com/en/comps/9/Premier-League-Stats"
     
     # Create output directory
-    os.makedirs("output", exist_ok=True)
+    #os.makedirs("output", exist_ok=True)
     
     # Load previous progress
     progress = load_progress()
