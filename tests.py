@@ -14,3 +14,6 @@ print(tables[0].head())
 player_url=("https://fbref.com/en/players/0426b987/all_comps/Ranel-Young-Stats---All-Competitions")
 player_name = player_url.split("/")[-1].replace("-Stats---All-Competitions", "").replace("-", " ")
 print(player_name)
+
+
+#dans la version de chatgpt pour les différentes saisons faire un test de scrap_club_players
