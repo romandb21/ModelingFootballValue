@@ -5,6 +5,7 @@ import time
 import os
 import random
 import json
+import io
 
 # Scraping configuration
 CONFIG_FILE = 'scraping_progress.json'
@@ -87,37 +88,42 @@ def scrape_club_players(club_url):
     
     return player_links
 
+
+
+
 def scrape_stats_player(player_url, existing_players):
     """Get statistics for a specific player if not already in the dataset."""
-    # Extract player name from URL
     player_name = player_url.split("/")[-1].replace("-Stats---All-Competitions", "").replace("-", " ")
-    
-    # Skip scraping if player already exists in the initial dataset
+
     if player_name in existing_players:
         print(f"Skipping {player_name} (already exists in the dataset).")
-        return pd.DataFrame()  # Return an empty DataFrame to signify no new data
-    
+        return pd.DataFrame()
+
     HEADERS = {
         'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
     }
-    time.sleep(random.uniform(3, 7))  # Longer random delay
-    
+    time.sleep(random.uniform(3, 7))
+
     try:
         response = requests.get(player_url, headers=HEADERS)
-        tables = pd.read_html(response.text)
-        
+        response_text = response.text
+        tables = pd.read_html(io.StringIO(response_text))
+
         # Extract stats and filter by seasons of interest
         stats_table = tables[1]
         seasons_to_keep = ['2020-2021', '2021-2022', '2022-2023', '2023-2024', '2024-2025']
         stats_table = stats_table[stats_table[('Unnamed: 0_level_0', 'Season')].isin(seasons_to_keep)]
-        
-        # Add player name to the stats table
-        stats_table[('Unnamed: -1_level_0', 'Player')] = player_name
-        
+
+        # Créer une copie explicite pour éviter le SettingWithCopyWarning
+        stats_table = stats_table.copy()
+
+        # Ajouter le nom du joueur
+        stats_table.loc[:, ('Unnamed: -1_level_0', 'Player')] = player_name
+
         # Reorder columns for consistency
         new_order = [('Unnamed: -1_level_0', 'Player')] + list(stats_table.columns[:-1])
         stats_table = stats_table[new_order]
-        
+
         return stats_table
     except Exception as e:
         print(f"Error scraping stats for {player_name}: {e}")
@@ -126,23 +132,17 @@ def scrape_stats_player(player_url, existing_players):
 
 
 
-def main(season):
-    pl_url = f"https://fbref.com/en/comps/9/{season}/{season}-Premier-League-Stats"
+
+def main(season, all_players_stats, existing_players):
     
-    # Create output directory
-    os.makedirs("output", exist_ok=True)
-    
-    # Load previous progress
+    L1_url = f"https://fbref.com/en/comps/13/{season}/{season}-Ligue-1-Stats"
     progress = load_progress()
     
-    # Check if the season matches the previous progress
     if progress.get('season') != season:
-        # Reset progress if the season is different
         progress = {'season': season, 'last_club': None, 'last_player': None}
         save_progress(progress)
     
-    # Load existing players
-    file_path = "/home/onyxia/work/ModelingFootballValue/players_stats.csv"
+    file_path = "/home/onyxia/work/ModelingFootballValue/players_stats_L1.csv"
     try:
         existing_data = pd.read_csv(file_path, header=[0, 1], low_memory=False)
         existing_players = set(existing_data[('Unnamed: -1_level_0', 'Player')].unique())
@@ -150,13 +150,9 @@ def main(season):
         existing_data = pd.DataFrame()
         existing_players = set()
     
-    # Get club URLs
     club_urls = get_club_urls(pl_url, season)
+    all_players_stats = pd.DataFrame()
     
-    # Load all players' stats if restarting
-    all_players_stats = existing_data
-    
-    # Determine starting point for clubs
     start_index = 0
     if progress['last_club']:
         try:
@@ -165,12 +161,9 @@ def main(season):
             start_index = 0
     
     for club_url in club_urls[start_index:]:
-        print(f"Processing club: {club_url}")
-        
         try:
             player_urls = scrape_club_players(club_url)
             
-            # Determine starting point for players
             start_player_index = 0
             if progress['last_club'] == club_url and progress['last_player']:
                 try:
@@ -179,37 +172,25 @@ def main(season):
                     start_player_index = 0
             
             for player_url in player_urls[start_player_index:]:
-                try:
-                    player_stats = scrape_stats_player(player_url, existing_players)
-                    
-                    if not player_stats.empty:
-                        all_players_stats = pd.concat([all_players_stats, player_stats], ignore_index=True)
-                    
-                    # Save progress
-                    save_progress({
-                        'season': season,
-                        'last_club': club_url,
-                        'last_player': player_url
-                    })
-                    
-                except Exception as e:
-                    print(f"Player error: {e}")
+                player_stats = scrape_stats_player(player_url, existing_players)
+                if not player_stats.empty:
+                    all_players_stats = pd.concat([all_players_stats, player_stats], ignore_index=True)
                 
-                # Intermediate save
-                all_players_stats.to_csv("output/players_stats.csv", index=False)
+                save_progress({'season': season, 'last_club': club_url, 'last_player': player_url})
         
         except Exception as e:
-            print(f"Club error: {e}")
+            print(f"Erreur pour le club {club_url}: {e}")
     
-    print("Scraping completed.")
-    # Remove progress file at the end
+    print("Scraping terminé.")
     if os.path.exists(CONFIG_FILE):
         os.remove(CONFIG_FILE)
+    
+    return all_players_stats
 
 
 def load_existing_data():
     """Load existing players_stats.csv"""
-    file_path = "/home/onyxia/work/ModelingFootballValue/players_stats.csv"
+    file_path = "/home/onyxia/work/ModelingFootballValue/players_stats_L1.csv"
     try:
         df = pd.read_csv(file_path, header=[0, 1], low_memory=False)
         print("Loaded with multi-level headers successfully.")
@@ -220,17 +201,74 @@ def load_existing_data():
 
 def main_with_existing_data(season):
     # Load existing data
-    file_path = "/home/onyxia/work/ModelingFootballValue/players_stats.csv"
+    file_path = "/home/onyxia/work/ModelingFootballValue/players_stats_L1.csv"
     try:
         existing_data = pd.read_csv(file_path, header=[0, 1], low_memory=False)
         existing_players = set(existing_data[('Unnamed: -1_level_0', 'Player')].unique())
     except FileNotFoundError:
         existing_data = pd.DataFrame()
         existing_players = set()
-    
+
+    # Initialize all_players_stats with existing data
+    all_players_stats = existing_data
+
     # Scrape new data for the given season
-    main(season)  # Run the scraping process; it avoids scraping existing players
+    all_players_stats = main(season, all_players_stats, existing_players)
+
+    # Remove duplicates (if necessary)
+    if all_players_stats.duplicated(subset=[('Unnamed: -1_level_0', 'Player'), ('Unnamed: 0_level_0', 'Season')]).any():
+        all_players_stats = all_players_stats.drop_duplicates(subset=[('Unnamed: -1_level_0', 'Player'), ('Unnamed: 0_level_0', 'Season')])
+
+    # Save the updated dataset back to the original file
+    all_players_stats.to_csv(file_path, index=False)
 
 
 
-main_with_existing_data("2023-2024")
+
+main_with_existing_data("2024-2025")
+
+
+
+
+def check_players_in_csv(club_url, csv_path):
+    """
+    Vérifie si tous les joueurs d'un club sont présents dans le fichier CSV existant.
+
+    Args:
+        club_url (str): URL du club à vérifier.
+        csv_path (str): Chemin vers le fichier CSV `players_stats_PL.csv`.
+
+    Returns:
+        list: Liste des joueurs manquants.
+    """
+    import pandas as pd
+    
+    # Charger les données existantes
+    try:
+        existing_data = pd.read_csv(csv_path, header=[0, 1], low_memory=False)
+        existing_players = set(existing_data[('Unnamed: -1_level_0', 'Player')].unique())
+        print(f"Loaded {len(existing_players)} players from CSV.")
+    except FileNotFoundError:
+        print("CSV file not found.")
+        return []
+
+    # Scraper les joueurs d'un club (à partir de l'URL)
+    try:
+        club_players = scrape_club_players(club_url)  # Utiliser la fonction existante pour récupérer les liens
+        club_player_names = [url.split("/")[-1].replace("-Stats---All-Competitions", "").replace("-", " ")
+                             for url in club_players]
+        print(f"Found {len(club_player_names)} players for the club.")
+    except Exception as e:
+        print(f"Error scraping club players: {e}")
+        return []
+
+    # Vérifier quels joueurs ne sont pas présents dans le fichier CSV
+    missing_players = [player for player in club_player_names if player not in existing_players]
+
+    # Résultat
+    if not missing_players:
+        print("All players from the club are present in the CSV.")
+    else:
+        print(f"Missing {len(missing_players)} players: {missing_players}")
+    
+    return missing_players

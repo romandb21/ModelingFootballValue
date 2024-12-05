@@ -1,6 +1,10 @@
 import requests
 from bs4 import BeautifulSoup
 import pandas as pd
+import time
+import os
+import random
+import json
 
 """
 response = requests.get('https://fbref.com/en/squads/822bd0ba/2024-2025/all_comps/Liverpool-Stats-All-Competitions')
@@ -12,20 +16,36 @@ tables = pd.read_html(response.text)
 print(tables[0].head())
 """
 
-# Load the CSV with multi-level headers
-file_path = "/home/onyxia/work/ModelingFootballValue/players_stats.csv"
-try:
-    df = pd.read_csv(file_path, header=[0, 1], low_memory=False)
-    print("Loaded with multi-level headers successfully.")
-except Exception as e:
-    print(f"Error loading file: {e}")
-    df = pd.DataFrame()  # Fallback to an empty DataFrame
+def scrape_club_players(club_url):
+    """Get player links for a specific club"""
+    HEADERS = {
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
+    }
+    time.sleep(random.uniform(3, 7))  # Longer random delay
+    
+    response = requests.get(club_url, headers=HEADERS)
+    soup = BeautifulSoup(response.text, 'html.parser')
+    
+    players_table = soup.find("table", id="stats_standard_combined")
+    
+    if not players_table:
+        print(f"Warning: No player table found for club {club_url}")
+        return []
 
-player_col = ('Unnamed: -1_level_0', 'Player')
-if player_col in df.columns:
-    print(f"Player column found: {player_col}")
-    existing_players = set(df[player_col].dropna().unique())
-    print(f"Loaded {len(existing_players)} existing players.")
-else:
-    print("Player column not found.")
+    player_links = []
+    for row in players_table.find_all("tr"):
+        player_cell = row.find("th", {"data-stat": "player"})
+        if player_cell and player_cell.find("a"):
+            player_link = player_cell.find("a")["href"]
+            
+            # Build complete URL
+            linkbefore = "https://fbref.com" + player_link
+            linkmid = linkbefore.split("/")
+            linkmid.insert(6, "all_comps")
+            full_url = "/".join(linkmid) + "-Stats---All-Competitions"
+            
+            player_links.append(full_url)
+    
+    return player_links
 
+print(scrape_club_players("https://fbref.com/en/squads/361ca564/2021-2022/all_comps/Tottenham-Hotspur-Stats-All-Competitions"))
