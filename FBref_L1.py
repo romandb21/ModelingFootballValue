@@ -36,7 +36,7 @@ def get_club_urls(league_url, season):
     soup = BeautifulSoup(response.text, 'html.parser')
 
     # Replace dynamic ID based on the season
-    table_id = f"results{season}91_overall"
+    table_id = f"results{season}131_overall"
     clubs_table = soup.find("table", id=table_id)
     
     if not clubs_table:
@@ -56,6 +56,7 @@ def get_club_urls(league_url, season):
     
     return club_links
 
+
 def scrape_club_players(club_url):
     """Get player links for a specific club"""
     HEADERS = {
@@ -66,10 +67,10 @@ def scrape_club_players(club_url):
     response = requests.get(club_url, headers=HEADERS)
     soup = BeautifulSoup(response.text, 'html.parser')
     
-    players_table = soup.find("table", id="stats_standard_combined")
+    players_table = soup.find("table", id="stats_standard_13")
     
     if not players_table:
-        print(f"Warning: No player table found for club {club_url}")
+        print(f"Warning: no players table for {club_url} ")
         return []
 
     player_links = []
@@ -87,8 +88,6 @@ def scrape_club_players(club_url):
             player_links.append(full_url)
     
     return player_links
-
-
 
 
 def scrape_stats_player(player_url, existing_players):
@@ -150,7 +149,7 @@ def main(season, all_players_stats, existing_players):
         existing_data = pd.DataFrame()
         existing_players = set()
     
-    club_urls = get_club_urls(pl_url, season)
+    club_urls = get_club_urls(L1_url, season)
     all_players_stats = pd.DataFrame()
     
     start_index = 0
@@ -272,3 +271,6 @@ def check_players_in_csv(club_url, csv_path):
         print(f"Missing {len(missing_players)} players: {missing_players}")
     
     return missing_players
+
+
+

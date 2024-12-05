@@ -6,7 +6,7 @@ import os
 import random
 import json
 
-"""
+
 response = requests.get('https://fbref.com/en/squads/822bd0ba/2024-2025/all_comps/Liverpool-Stats-All-Competitions')
 soup = BeautifulSoup(response.text, 'html.parser')
 
@@ -15,9 +15,8 @@ tables = pd.read_html(response.text)
 
 print(tables[0].head())
 """
-
 def scrape_club_players(club_url):
-    """Get player links for a specific club"""
+    
     HEADERS = {
         'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
     }
@@ -49,3 +48,4 @@ def scrape_club_players(club_url):
     return player_links
 
 print(scrape_club_players("https://fbref.com/en/squads/361ca564/2021-2022/all_comps/Tottenham-Hotspur-Stats-All-Competitions"))
+"""

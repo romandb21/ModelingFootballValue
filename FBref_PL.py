@@ -281,3 +281,10 @@ def check_players_in_csv(club_url, csv_path):
 
 #check_players_in_csv("https://fbref.com/en/squads/361ca564/2021-2022/all_comps/Tottenham-Hotspur-Stats-All-Competitions","/home/onyxia/work/ModelingFootballValue/players_stats_PL.csv")
 
+base) onyxia@vscode-python-566399-0:~/work$ /opt/conda/bin/python /home/onyxia/work/ModelingFootballValue/FBref_L1.py
+Error scraping stats for Naoufel El Hannach: No tables found
+Error scraping stats for Axel Tape: No tables found
+Error scraping stats for Darryl Bakola: No tables found
+Error scraping stats for Emmanuel Koum Mbondo: No tables found
+Error scraping stats for Rony Mimb Baheng: No tables found
+Error scraping stats for Jelle Van Neck: No tables found
