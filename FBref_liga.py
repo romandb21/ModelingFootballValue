@@ -58,7 +58,7 @@ def scrape_club_players(club_url):
     HEADERS = {
         'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
     }
-    time.sleep(random.uniform(3, 5))  # Longer random delay
+    time.sleep(random.uniform(3, 4))  # random delay
     
     response = requests.get(club_url, headers=HEADERS)
     soup = BeautifulSoup(response.text, 'html.parser')
@@ -97,17 +97,28 @@ def scrape_stats_player(player_url, existing_players):
     HEADERS = {
         'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
     }
-    time.sleep(random.uniform(3, 5))
+    time.sleep(random.uniform(3, 4)) # random delay
 
     try:
         response = requests.get(player_url, headers=HEADERS)
-        response_text = response.text
-        tables = pd.read_html(io.StringIO(response_text))
+        soup = BeautifulSoup(response.text, 'html.parser')
+    
+        stats_table = soup.find("table", id="stats_standard_dom_lg")
+        if stats_table is None:
+            print(f"No stats table found for URL: {player_url}")
+            return pd.DataFrame()
 
-        # Extract stats and filter by seasons of interest
-        stats_table = tables[1]
+        # Convertir le tableau HTML en DataFrame
+        try:
+            stats_table_html = str(stats_table)  # Convertir en chaîne
+            stats_table = pd.read_html(io.StringIO(stats_table_html), header=[0, 1])[0]
+        except ValueError as e:
+            print(f"Error reading HTML table for {player_name}: {e}")
+            return pd.DataFrame()
+
         seasons_to_keep = ['2020-2021', '2021-2022', '2022-2023', '2023-2024', '2024-2025']
         stats_table = stats_table[stats_table[('Unnamed: 0_level_0', 'Season')].isin(seasons_to_keep)]
+
 
         # Créer une copie explicite pour éviter le SettingWithCopyWarning
         stats_table = stats_table.copy()
@@ -220,7 +231,7 @@ def main_with_existing_data(season):
 
 
 
-main_with_existing_data("2024-2025")
+main_with_existing_data("2020-2021")
 
 
 

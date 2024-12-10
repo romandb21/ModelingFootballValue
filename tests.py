@@ -3,17 +3,22 @@ from bs4 import BeautifulSoup
 import pandas as pd
 import time
 import os
+import io
 import random
 import json
 
+HEADERS = {
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
+    }
+response = requests.get('https://fbref.com/en/players/bf5948ea/Lorenzo-Lucchesi', headers=HEADERS)
+response_text = response.text
+tables = pd.read_html(io.StringIO(response_text))
 
-response = requests.get('https://fbref.com/en/squads/822bd0ba/2024-2025/all_comps/Liverpool-Stats-All-Competitions')
-soup = BeautifulSoup(response.text, 'html.parser')
+# Extract stats and filter by seasons of interest
+stats_table = tables[1]
 
-# Trouver la première table sur la page (statistiques des joueurs)
-tables = pd.read_html(response.text)
 
-print(tables[0].head())
+print(stats_table)
 """
 def scrape_club_players(club_url):
     
