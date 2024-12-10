@@ -62,7 +62,7 @@ def scrape_club_players(club_url):
     HEADERS = {
         'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
     }
-    time.sleep(random.uniform(3, 4))  # random delay 
+    time.sleep(random.uniform(2, 4))  # random delay 
     
     response = requests.get(club_url, headers=HEADERS)
     soup = BeautifulSoup(response.text, 'html.parser')
@@ -101,7 +101,7 @@ def scrape_stats_player(player_url, existing_players):
     HEADERS = {
         'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
     }
-    time.sleep(random.uniform(3, 4)) # random delay
+    time.sleep(random.uniform(2, 4)) # random delay
 
     try:
         response = requests.get(player_url, headers=HEADERS)
@@ -235,7 +235,7 @@ def main_with_existing_data(season):
 
 
 
-main_with_existing_data("2020-2021")
+main_with_existing_data("2021-2022")
 
 
 
