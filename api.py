@@ -17,4 +17,3 @@ for league in leagues:
         print(response.json())
     
     # Does not work since I'm not susbribed to API Football, but it should work.
-    
