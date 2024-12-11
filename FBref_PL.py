@@ -61,7 +61,7 @@ def scrape_club_players(club_url):
     HEADERS = {
         'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
     }
-    time.sleep(random.uniform(2, 4))  # random delay
+    time.sleep(random.uniform(3, 5))  # random delay
     
     response = requests.get(club_url, headers=HEADERS)
     soup = BeautifulSoup(response.text, 'html.parser')
@@ -101,13 +101,16 @@ def scrape_stats_player(player_url, existing_players):
     HEADERS = {
         'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
     }
-    time.sleep(random.uniform(2, 4)) # random delay
+    time.sleep(random.uniform(3, 5)) # random delay
 
     try:
         response = requests.get(player_url, headers=HEADERS)
         soup = BeautifulSoup(response.text, 'html.parser')
-    
-        stats_table = soup.find("table", id="stats_standard_dom_lg")
+        stats_table = soup.find("table", id="stats_standard_expanded")
+        
+        if stats_table is None:
+            stats_table = soup.find("table", id="stats_standard_dom_lg")
+
         if stats_table is None:
             print(f"No stats table found for URL: {player_url}")
             return pd.DataFrame()
@@ -292,10 +295,3 @@ def check_players_in_csv(club_url, csv_path):
 
 #check_players_in_csv("https://fbref.com/en/squads/361ca564/2021-2022/all_comps/Tottenham-Hotspur-Stats-All-Competitions","/home/onyxia/work/ModelingFootballValue/players_stats_PL.csv")
 
-base) onyxia@vscode-python-566399-0:~/work$ /opt/conda/bin/python /home/onyxia/work/ModelingFootballValue/FBref_L1.py
-Error scraping stats for Naoufel El Hannach: No tables found
-Error scraping stats for Axel Tape: No tables found
-Error scraping stats for Darryl Bakola: No tables found
-Error scraping stats for Emmanuel Koum Mbondo: No tables found
-Error scraping stats for Rony Mimb Baheng: No tables found
-Error scraping stats for Jelle Van Neck: No tables found

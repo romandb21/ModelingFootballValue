@@ -106,8 +106,11 @@ def scrape_stats_player(player_url, existing_players):
     try:
         response = requests.get(player_url, headers=HEADERS)
         soup = BeautifulSoup(response.text, 'html.parser')
-    
-        stats_table = soup.find("table", id="stats_standard_dom_lg")
+        stats_table = soup.find("table", id="stats_standard_expanded")
+        
+        if stats_table is None:
+            stats_table = soup.find("table", id="stats_standard_dom_lg")
+            
         if stats_table is None:
             print(f"No stats table found for URL: {player_url}")
             return pd.DataFrame()
