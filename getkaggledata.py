@@ -2,6 +2,7 @@ import os
 import pandas as pd
 import numpy as np
 from math import sqrt
+import matplotlib.pyplot as plt
 
 # Define the directory where the CSV files will be downloaded
 output_dir = os.path.dirname(os.path.abspath(__file__))
@@ -69,10 +70,10 @@ relevant_transfers = transfers_df[
 ]
 
 # Define the top 7 UEFA league IDs
-top_10_uefa_leagues = ["GB1", "ES1", "IT1", "L1", "FR1", "PT1", "NL1"]
+top_7_uefa_leagues = ["GB1", "ES1", "IT1", "L1", "FR1", "PT1", "NL1"]
 
 # Filter clubs that are in the top 7 leagues
-top_clubs = clubs_df[clubs_df["domestic_competition_id"].isin(top_10_uefa_leagues)]
+top_clubs = clubs_df[clubs_df["domestic_competition_id"].isin(top_7_uefa_leagues)]
 
 # Print the shape before the merge
 print("Before Merge:", relevant_transfers.shape)
@@ -234,8 +235,26 @@ print(seller_metrics.head())
 print(buyer_metrics.head())
 
 
+# Trouver les clubs communs
+common_clubs = set(seller_metrics['club']).intersection(set(buyer_metrics['club']))
 
+# Filtrer les DataFrames pour ne garder que les clubs communs
+seller_metrics_common = seller_metrics[seller_metrics['club'].isin(common_clubs)]
+buyer_metrics_common = buyer_metrics[buyer_metrics['club'].isin(common_clubs)]
 
+# Aligner les DataFrames pour garantir le même ordre
+seller_metrics_common = seller_metrics_common.sort_values(by='club').reset_index(drop=True)
+buyer_metrics_common = buyer_metrics_common.sort_values(by='club').reset_index(drop=True)
 
+# Vérification des tailles
+assert len(seller_metrics_common) == len(buyer_metrics_common), "Les tailles des DataFrames ne correspondent pas après le filtrage."
 
-
+# Tracer le graphique
+plt.figure(figsize=(8, 6))
+plt.scatter(seller_metrics_common['correlation'], buyer_metrics_common['correlation'], alpha=0.7, edgecolor='k')
+plt.xlabel("Seller Correlation (Transfer Fee vs Market Value)")
+plt.ylabel("Buyer Correlation (Transfer Fee vs Market Value)")
+plt.title("Correlation Between Transfer Values and Market Values")
+plt.grid(True)
+plt.savefig("output_graph.png")  # Sauvegarde le graphique
+plt.show()
