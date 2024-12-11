@@ -246,15 +246,16 @@ buyer_metrics_common = buyer_metrics[buyer_metrics['club'].isin(common_clubs)]
 seller_metrics_common = seller_metrics_common.sort_values(by='club').reset_index(drop=True)
 buyer_metrics_common = buyer_metrics_common.sort_values(by='club').reset_index(drop=True)
 
-# Vérification des tailles
-assert len(seller_metrics_common) == len(buyer_metrics_common), "Les tailles des DataFrames ne correspondent pas après le filtrage."
 
-# Tracer le graphique
-plt.figure(figsize=(8, 6))
-plt.scatter(seller_metrics_common['correlation'], buyer_metrics_common['correlation'], alpha=0.7, edgecolor='k')
-plt.xlabel("Seller Correlation (Transfer Fee vs Market Value)")
-plt.ylabel("Buyer Correlation (Transfer Fee vs Market Value)")
-plt.title("Correlation Between Transfer Values and Market Values")
-plt.grid(True)
-plt.savefig("output_graph.png")  # Sauvegarde le graphique
-plt.show()
+# Tracer les graphiques
+columns_list = seller_metrics_common.columns.tolist()
+
+for i in columns_list[1:]:
+    plt.figure(figsize=(8, 6))
+    plt.scatter(seller_metrics_common[i], buyer_metrics_common[i], alpha=0.7, edgecolor='k')
+    plt.xlabel("Seller " + i + " (Transfer Fee vs Market Value)")
+    plt.ylabel("Buyer " + i + " (Transfer Fee vs Market Value)")
+    plt.title(i + " Between Transfer Values and Market Values")
+    plt.grid(True)
+    plt.savefig(i + "_graph.png")  # Sauvegarde le graphique
+    plt.show()
