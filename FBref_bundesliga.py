@@ -36,7 +36,7 @@ def get_club_urls(league_url, season):
     soup = BeautifulSoup(response.text, 'html.parser')
 
     # Replace dynamic ID based on the season
-    table_id = f"results{season}131_overall"
+    table_id = f"results{season}201_overall"
     clubs_table = soup.find("table", id=table_id)
     
     if not clubs_table:
@@ -47,27 +47,23 @@ def get_club_urls(league_url, season):
         first_col = row.find("td", {"data-stat": "team"})
         if first_col and first_col.find("a"):
             link0 = "https://fbref.com" + first_col.find("a")["href"]
-            parts = link0.split('/')
-            parts.insert(6, season)  # Insert the dynamic season
-            parts.insert(7, "all_comps")
-            parts[-1] = parts[-1] + "-All-Competitions"
-            link_transformed = "/".join(parts)
-            club_links.append(link_transformed)
+            club_links.append(link0)
     
     return club_links
 
+#print(get_club_urls("https://fbref.com/en/comps/12/La-Liga-Stats", "2024-2025"))
 
 def scrape_club_players(club_url):
     """Get player links for a specific club"""
     HEADERS = {
         'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
     }
-    time.sleep(random.uniform(3, 4))  # random delay 
+    time.sleep(random.uniform(3, 4))  # random delay
     
     response = requests.get(club_url, headers=HEADERS)
     soup = BeautifulSoup(response.text, 'html.parser')
     
-    players_table = soup.find("table", id="stats_standard_13")
+    players_table = soup.find("table", id="stats_standard_20")
     
     if not players_table:
         print(f"Warning: no players table for {club_url} ")
@@ -148,14 +144,14 @@ def scrape_stats_player(player_url, existing_players):
 
 def main(season, all_players_stats, existing_players):
     
-    L1_url = f"https://fbref.com/en/comps/13/{season}/{season}-Ligue-1-Stats"
+    Liga_url = f"https://fbref.com/en/comps/12/{season}/{season}-La-Liga-Stats"
     progress = load_progress()
     
     if progress.get('season') != season:
         progress = {'season': season, 'last_club': None, 'last_player': None}
         save_progress(progress)
     
-    file_path = "/home/onyxia/work/ModelingFootballValue/players_stats_L1.csv"
+    file_path = "/home/onyxia/work/ModelingFootballValue/players_stats_liga.csv"
     try:
         existing_data = pd.read_csv(file_path, header=[0, 1], low_memory=False)
         existing_players = set(existing_data[('Unnamed: -1_level_0', 'Player')].unique())
@@ -163,7 +159,7 @@ def main(season, all_players_stats, existing_players):
         existing_data = pd.DataFrame()
         existing_players = set()
     
-    club_urls = get_club_urls(L1_url, season)
+    club_urls = get_club_urls(Liga_url, season)
     all_players_stats = pd.DataFrame()
     
     start_index = 0
@@ -203,7 +199,7 @@ def main(season, all_players_stats, existing_players):
 
 def load_existing_data():
     """Load existing players_stats.csv"""
-    file_path = "/home/onyxia/work/ModelingFootballValue/players_stats_L1.csv"
+    file_path = "/home/onyxia/work/ModelingFootballValue/players_stats_liga.csv"
     try:
         df = pd.read_csv(file_path, header=[0, 1], low_memory=False)
         print("Loaded with multi-level headers successfully.")
@@ -214,7 +210,7 @@ def load_existing_data():
 
 def main_with_existing_data(season):
     # Load existing data
-    file_path = "/home/onyxia/work/ModelingFootballValue/players_stats_L1.csv"
+    file_path = "/home/onyxia/work/ModelingFootballValue/players_stats_liga.csv"
     try:
         existing_data = pd.read_csv(file_path, header=[0, 1], low_memory=False)
         existing_players = set(existing_data[('Unnamed: -1_level_0', 'Player')].unique())
@@ -285,6 +281,5 @@ def check_players_in_csv(club_url, csv_path):
         print(f"Missing {len(missing_players)} players: {missing_players}")
     
     return missing_players
-
 
 
