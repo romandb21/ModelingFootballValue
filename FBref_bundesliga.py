@@ -144,7 +144,7 @@ def scrape_stats_player(player_url, existing_players):
 
 def main(season, all_players_stats, existing_players):
     
-    bundes_url = f"https://fbref.com/en/comps/20/Bundesliga-Stats"
+    bundes_url = f"https://fbref.com/en/comps/20/{season}/{season}-Bundesliga-Stats"
     progress = load_progress()
     
     if progress.get('season') != season:
@@ -234,7 +234,7 @@ def main_with_existing_data(season):
 
 
 
-main_with_existing_data("2024-2025")
+main_with_existing_data("2023-2024")
 
 
 
