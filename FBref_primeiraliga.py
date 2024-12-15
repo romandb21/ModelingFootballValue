@@ -36,7 +36,7 @@ def get_club_urls(league_url, season):
     soup = BeautifulSoup(response.text, 'html.parser')
 
     # Replace dynamic ID based on the season
-    table_id = f"results{season}201_overall"
+    table_id = f"results{season}321_overall"
     clubs_table = soup.find("table", id=table_id)
     
     if not clubs_table:
@@ -63,7 +63,7 @@ def scrape_club_players(club_url):
     response = requests.get(club_url, headers=HEADERS)
     soup = BeautifulSoup(response.text, 'html.parser')
     
-    players_table = soup.find("table", id="stats_standard_20")
+    players_table = soup.find("table", id="stats_standard_32")
     
     if not players_table:
         print(f"Warning: no players table for {club_url} ")
@@ -144,14 +144,14 @@ def scrape_stats_player(player_url, existing_players):
 
 def main(season, all_players_stats, existing_players):
     
-    bundes_url = f"https://fbref.com/en/comps/20/{season}/{season}-Bundesliga-Stats"
+    primeira_url = f"https://fbref.com/en/comps/32/{season}/{season}-Primeira-Liga-Stats"
     progress = load_progress()
     
     if progress.get('season') != season:
         progress = {'season': season, 'last_club': None, 'last_player': None}
         save_progress(progress)
     
-    file_path = "/home/onyxia/work/ModelingFootballValue/players_stats_bundes.csv"
+    file_path = "/home/onyxia/work/ModelingFootballValue/players_stats_primeiraliga.csv"
     try:
         existing_data = pd.read_csv(file_path, header=[0, 1], low_memory=False)
         existing_players = set(existing_data[('Unnamed: -1_level_0', 'Player')].unique())
@@ -159,7 +159,7 @@ def main(season, all_players_stats, existing_players):
         existing_data = pd.DataFrame()
         existing_players = set()
     
-    club_urls = get_club_urls(bundes_url, season)
+    club_urls = get_club_urls(primeira_url, season)
     all_players_stats = pd.DataFrame()
     
     start_index = 0
@@ -199,7 +199,7 @@ def main(season, all_players_stats, existing_players):
 
 def load_existing_data():
     """Load existing players_stats.csv"""
-    file_path = "/home/onyxia/work/ModelingFootballValue/players_stats_bundes.csv"
+    file_path = "/home/onyxia/work/ModelingFootballValue/players_stats_primeiraliga.csv"
     try:
         df = pd.read_csv(file_path, header=[0, 1], low_memory=False)
         print("Loaded with multi-level headers successfully.")
@@ -210,7 +210,7 @@ def load_existing_data():
 
 def main_with_existing_data(season):
     # Load existing data
-    file_path = "/home/onyxia/work/ModelingFootballValue/players_stats_bundes.csv"
+    file_path = "/home/onyxia/work/ModelingFootballValue/players_stats_primeiraliga.csv"
     try:
         existing_data = pd.read_csv(file_path, header=[0, 1], low_memory=False)
         existing_players = set(existing_data[('Unnamed: -1_level_0', 'Player')].unique())
