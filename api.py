@@ -68,23 +68,23 @@ def get_players(team_id):
 '''Define a function to plot a football pitch'''
 
 def draw_pitch():
-    plt.figure(figsize=(8, 12))  # Dimensions of the pitch
-    plt.plot([0, 100], [0, 0], color="black") # All the lines of the pitch 
-    plt.plot([0, 0], [0, 100], color="black")  
-    plt.plot([100, 100], [0, 100], color="black")  
-    plt.plot([0, 100], [100, 100], color="black")  
-    plt.plot([30, 70], [90, 90], color="black")
-    plt.plot([30, 70], [10, 10], color="black")
-    plt.plot([30, 30], [90, 100], color="black")
-    plt.plot([70, 70], [90, 100], color="black")
-    plt.plot([30, 30], [0, 10], color="black")
-    plt.plot([70, 70], [0, 10], color="black")
-    plt.plot([0, 100], [50, 50], color="black")
-    circle = plt.Circle((50, 50), 10, color="black", fill=False)
+    plt.figure(figsize=(8, 12)).patch.set_facecolor("green")  # Dimensions of the pitch
+    plt.plot([0, 100], [0, 0], color="white") # All the lines of the pitch 
+    plt.plot([0, 0], [0, 100], color="white")  
+    plt.plot([100, 100], [0, 100], color="white")  
+    plt.plot([0, 100], [100, 100], color="white")  
+    plt.plot([30, 70], [90, 90], color="white")
+    plt.plot([30, 70], [10, 10], color="white")
+    plt.plot([30, 30], [90, 100], color="white")
+    plt.plot([70, 70], [90, 100], color="white")
+    plt.plot([30, 30], [0, 10], color="white")
+    plt.plot([70, 70], [0, 10], color="white")
+    plt.plot([0, 100], [50, 50], color="white")
+    circle = plt.Circle((50, 50), 10, color="white", fill=False)
     plt.gca().add_patch(circle)
     plt.xlim(0, 100)
     plt.ylim(0, 100)
     plt.axis("off")  # Hide axes
     plt.show()
 
-
+draw_pitch()
