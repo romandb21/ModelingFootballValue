@@ -63,8 +63,8 @@ def scrape_club_players(club_url):
     soup = BeautifulSoup(response.text, 'html.parser')
     
     for x in [20, 13, 12, 9, 11]:
-        if soup.find("table", id=f"stats_standard_{x}") is not None
-        players_table = soup.find("table", id=f"stats_standard_{x}")
+        if soup.find("table", id=f"stats_standard_{x}") is not None:
+            players_table = soup.find("table", id=f"stats_standard_{x}")
     
     if not players_table:
         print(f"Warning: no players table for {club_url} ")
