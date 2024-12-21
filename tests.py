@@ -231,9 +231,9 @@ def main_with_existing_data(season):
 
 
 
-seasons_list=['2015-2016', '2016-2017', '2017-2018', '2018-2019', '2019-2020', '2020-2021', '2021-2022', '2022-2023', '2023-2024', '2024-2025']
-for season in seasons_list:
-    main_with_existing_data(season)
+seasons_list=['2017-2018', '2018-2019', '2019-2020', '2020-2021', '2021-2022', '2022-2023', '2023-2024', '2024-2025']
+
+main_with_existing_data(seasons_list[0])
 
 
 

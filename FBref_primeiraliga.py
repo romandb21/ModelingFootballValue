@@ -119,9 +119,6 @@ def scrape_stats_player(player_url, existing_players):
             print(f"Error reading HTML table for {player_name}: {e}")
             return pd.DataFrame()
 
-        seasons_to_keep = ['2020-2021', '2021-2022', '2022-2023', '2023-2024', '2024-2025']
-        stats_table = stats_table[stats_table[('Unnamed: 0_level_0', 'Season')].isin(seasons_to_keep)]
-
 
         # Créer une copie explicite pour éviter le SettingWithCopyWarning
         stats_table = stats_table.copy()
@@ -233,8 +230,8 @@ def main_with_existing_data(season):
 
 
 
-
-main_with_existing_data("2020-2021")
+for season in ['2015-2016', '2016-2017', '2017-2018', '2018-2019', '2019-2020', '2020-2021', '2021-2022', '2022-2023', '2023-2024', '2024-2025']:
+    main_with_existing_data(season)
 
 
 
