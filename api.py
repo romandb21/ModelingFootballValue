@@ -53,14 +53,14 @@ def get_players(team_id):
         return []
     players_list = []
     for player in squad:
-        players_list.append({  # all the information we need
+        players_list.append({  # All the information we need
             "Player Name": player["name"],
             "Position": player["position"],
             "Date of Birth": player.get("dateOfBirth", "N/A"),
             "Nationality": player.get("nationality", "N/A"),
             "Team Name": team,
             "Market Value ": player.get("marketValue", "N/A")
-            # with the free plan we cannot obtain the market value
+            # With the free plan we cannot obtain the market value
         })
     players_df = pd.DataFrame(players_list)
     print(players_df)
@@ -83,7 +83,7 @@ def draw_team(team_id):
         "Attacking Midfield" : [(70,45-i*3) for i in range(10)],
         "Right Winger" : [(20,25-i*3) for i in range(10)],
         "Centre-Forward" : [(50,20-i*3) for i in range(10)],
-        "Left Winger" : [(80,25-i*3) for i in range(10)], }
+        "Left Winger" : [(80,25-i*3) for i in range(10)], } # Positions on the pitch of all the players
     
     positions_title = pd.DataFrame({
     "name": ["Goalkeeper", "Right-Back", "Centre-Back", "Centre-Back", "Left-Back", 
@@ -91,12 +91,12 @@ def draw_team(team_id):
              "Centre-Forward", "Left Winger"],
     "x": [50, 15, 35, 65, 85, 30, 50, 70, 20, 50, 80], 
     "y": [101, 73, 83, 83, 73, 48, 63, 48, 28, 23, 28]   
-    })
+    }) # Positions of the titles 
     
     positions = []
     position_counters = {role: 0 for role in role_positions}
     
-    for _, player in players_df.iterrows():
+    for _, player in players_df.iterrows(): # Checks equalities between position of the data frame and the dictionary 
         role = player["Position"]
         if role in role_positions:
             counter = position_counters[role]
@@ -105,7 +105,7 @@ def draw_team(team_id):
                 position_counters[role] += 1
                 positions.append({"name": player["Player Name"], "x": pos[0], "y": pos[1]})
     
-    position_df = pd.DataFrame(positions)
+    position_df = pd.DataFrame(positions) # Data frame with positions on the pitch
     
     plt.figure(figsize=(8, 12)).patch.set_facecolor("olivedrab")  # Dimensions of the pitch
     plt.plot([0, 100], [0, 0], color="white") # All the lines of the pitch 
@@ -123,29 +123,29 @@ def draw_team(team_id):
     plt.gca().add_patch(circle)
     plt.xlim(0, 100)
     plt.ylim(0, 100)
-    plt.axis("off")  # hide axes
+    plt.axis("off")  # Hide axes
     
     title=plt.text( 50, 108, player["Team Name"], color="darkkhaki", fontsize=18, ha="center", va="center" )
     title.set_path_effects([
             path_effects.Stroke(linewidth=1.5, foreground="black"),  
-            path_effects.Normal()])
+            path_effects.Normal()]) # Name of the team
 
    
     for _, row in position_df.iterrows():
         plt.text(row["x"], row["y"], row["name"], color="white", fontsize=9,
                  ha="center", va="center").set_path_effects([
             path_effects.Stroke(linewidth=1.5 , foreground="black"),  
-            path_effects.Normal()])
+            path_effects.Normal()]) # Name of the players
         
     for _, row in positions_title.iterrows():
         text=plt.text(row["x"], row["y"], row["name"], color="darkkhaki", fontsize=11,
                  ha="center", va="center").set_path_effects([
             path_effects.Stroke(linewidth=1.5, foreground="black"),  
-            path_effects.Normal()])
+            path_effects.Normal()]) # Name of the positions
  
        
 
     plt.show()
 
 
-draw_team(57)
+draw_team(86)
