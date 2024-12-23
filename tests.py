@@ -308,4 +308,4 @@ def find_and_print_player_occurrences(player_name, file_path="/home/onyxia/work/
         return 0, pd.DataFrame()
 
 
-find_and_print_player_occurrences('Steve Mandanda', "/home/onyxia/work/ModelingFootballValue/players_stats_L1.csv")
+find_and_print_player_occurrences('Bradley Barcola', "/home/onyxia/work/ModelingFootballValue/players_stats_L1.csv")

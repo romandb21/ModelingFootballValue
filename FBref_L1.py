@@ -49,8 +49,6 @@ def get_club_urls(league_url, season):
             link0 = "https://fbref.com" + first_col.find("a")["href"]
             parts = link0.split('/')
             parts.insert(6, season)  # Insert the dynamic season
-            parts.insert(7, "all_comps")
-            parts[-1] = parts[-1] + "-All-Competitions"
             link_transformed = "/".join(parts)
             club_links.append(link_transformed)
     
@@ -123,7 +121,12 @@ def scrape_stats_player(player_url, existing_players):
             print(f"Error reading HTML table for {player_name}: {e}")
             return pd.DataFrame()
 
-        seasons_to_keep = ['2020-2021', '2021-2022', '2022-2023', '2023-2024', '2024-2025']
+        seasons_to_keep = [
+            '2010-2011', '2011-2012', '2012-2013', '2013-2014', 
+            '2014-2015', '2015-2016', '2016-2017', '2017-2018', 
+            '2018-2019', '2019-2020', '2020-2021', '2021-2022', 
+            '2022-2023', '2023-2024', '2024-2025'
+        ]
         stats_table = stats_table[stats_table[('Unnamed: 0_level_0', 'Season')].isin(seasons_to_keep)]
 
 
@@ -166,7 +169,7 @@ def main(season, all_players_stats, existing_players):
         existing_data3 = pd.read_csv(file_path3, header=[0, 1], low_memory=False)
         existing_data4 = pd.read_csv(file_path4, header=[0, 1], low_memory=False)
         existing_data5 = pd.read_csv(file_path5, header=[0, 1], low_memory=False)
-        existing_data = pd.concat
+        existing_data = pd.concat([existing_data1, existing_data2, existing_data3, existing_data4, existing_data5], ignore_index=True)
         existing_players = set(existing_data[('Unnamed: -1_level_0', 'Player')].unique())
     except FileNotFoundError:
         existing_data = pd.DataFrame()
@@ -210,24 +213,25 @@ def main(season, all_players_stats, existing_players):
     return all_players_stats
 
 
-def load_existing_data():
-    """Load existing players_stats.csv"""
-    file_path = "/home/onyxia/work/ModelingFootballValue/players_stats_L1.csv"
-    try:
-        df = pd.read_csv(file_path, header=[0, 1], low_memory=False)
-        print("Loaded with multi-level headers successfully.")
-    except Exception as e:
-        print(f"Error loading file: {e}")
-        df = pd.DataFrame()
-
 
 def main_with_existing_data(season):
     # Load existing data
-    file_path = "/home/onyxia/work/ModelingFootballValue/players_stats_L1.csv"
+    file_path1 = "/home/onyxia/work/ModelingFootballValue/players_stats_L1.csv"
+    file_path2 = "/home/onyxia/work/ModelingFootballValue/players_stats_liga.csv"
+    file_path3 = "/home/onyxia/work/ModelingFootballValue/players_stats_bundes.csv"
+    file_path4 = "/home/onyxia/work/ModelingFootballValue/players_stats_PL.csv"
+    file_path5 = "/home/onyxia/work/ModelingFootballValue/players_stats_serieA.csv"
     try:
-        existing_data = pd.read_csv(file_path, header=[0, 1], low_memory=False)
+        existing_data1 = pd.read_csv(file_path1, header=[0, 1], low_memory=False)
+        existing_data2 = pd.read_csv(file_path2, header=[0, 1], low_memory=False)
+        existing_data3 = pd.read_csv(file_path3, header=[0, 1], low_memory=False)
+        existing_data4 = pd.read_csv(file_path4, header=[0, 1], low_memory=False)
+        existing_data5 = pd.read_csv(file_path5, header=[0, 1], low_memory=False)
+        existing_data = pd.concat([existing_data1, existing_data2, existing_data3, existing_data4, existing_data5], ignore_index=True)
         existing_players = set(existing_data[('Unnamed: -1_level_0', 'Player')].unique())
     except FileNotFoundError:
+        existing_data = pd.DataFrame()
+        existing_players = set()
         existing_data = pd.DataFrame()
         existing_players = set()
 
@@ -247,7 +251,7 @@ def main_with_existing_data(season):
 
 
 
-main_with_existing_data("2024-2025")
+#main_with_existing_data("2015-2016")
 
 
 
@@ -294,6 +298,109 @@ def check_players_in_csv(club_url, csv_path):
         print(f"Missing {len(missing_players)} players: {missing_players}")
     
     return missing_players
+
+
+
+#check_players_in_csv("https://fbref.com/en/squads/d53c0b06/2023-2024/Lyon-Stats", "/home/onyxia/work/ModelingFootballValue/players_stats_L1.csv")
+
+
+
+def find_and_print_player_occurrences(player_name, file_path="/home/onyxia/work/ModelingFootballValue/players_stats_L1.csv"):
+    """
+    Trouve et affiche les lignes où un joueur apparaît dans le fichier CSV.
+    
+    :param player_name: Nom du joueur à rechercher.
+    :param file_path: Chemin du fichier CSV.
+    :return: Nombre d'occurrences du joueur.
+    """
+    try:
+        # Charger le fichier CSV avec les en-têtes multi-niveaux
+        df = pd.read_csv(file_path, header=[0, 1], low_memory=False)
+        
+        # Vérifier si la colonne "Player" existe
+        if ( 'Unnamed: -1_level_0',    'Player') not in df.columns:
+            raise KeyError("La colonne 'Squad' n'existe pas dans le fichier.")
+        
+        # Filtrer les lignes correspondant au joueur
+        club_rows = df[df[( 'Unnamed: -1_level_0',    'Player')] == player_name]
+        
+        # Afficher le nombre d'occurrences
+        occurrences = club_rows.shape[0]
+        print(f"Le joueur '{player_name}' apparaît {occurrences} fois dans le fichier.")
+        
+        # Afficher les lignes où il apparaît
+        if occurrences > 0:
+            print(club_rows)
+        else:
+            print(f"Aucune ligne trouvée pour le joueur '{player_name}'.")
+        
+        return occurrences, club_rows
+    except FileNotFoundError:
+        print(f"Le fichier '{file_path}' est introuvable.")
+        return 0, pd.DataFrame()
+    except Exception as e:
+        print(f"Une erreur s'est produite : {e}")
+        return 0, pd.DataFrame()
+
+'''
+find_and_print_player_occurrences('Bradley Barcola', "/home/onyxia/work/ModelingFootballValue/players_stats_L1.csv")
+
+
+# Liste des chemins des fichiers CSV
+csv_files = [
+    "/home/onyxia/work/ModelingFootballValue/players_stats_bundes.csv",
+    "/home/onyxia/work/ModelingFootballValue/players_stats_L1.csv",
+    "//home/onyxia/work/ModelingFootballValue/players_stats_liga.csv",
+    "/home/onyxia/work/ModelingFootballValue/players_stats_PL.csv",
+    "/home/onyxia/work/ModelingFootballValue/players_stats_serieA.csv",
+    "/home/onyxia/work/ModelingFootballValue/players_stats_Big5.csv"
+]
+
+
+# Charger tous les fichiers CSV et les concaténer
+all_data = pd.concat([pd.read_csv(file, header=[0, 1], low_memory=False) for file in csv_files], ignore_index=True)
+
+# Supprimer les doublons
+# Vous pouvez spécifier une ou plusieurs colonnes à utiliser pour détecter les doublons.
+# Exemple : all_data.drop_duplicates(subset=[('Unnamed: -1_level_0', 'Player'), ('Unnamed: 0_level_0', 'Season')])
+all_data = all_data.drop_duplicates(subset=[('Unnamed: -1_level_0', 'Player'), ('Unnamed: 0_level_0', 'Season')])
+all_data = all_data.sort_values(by = ('Unnamed: -1_level_0', 'Player'))
+
+# Sauvegarder dans un nouveau fichier CSV si besoin
+all_data.to_csv("/home/onyxia/work/ModelingFootballValue/players_stats_Big5.csv", index=False)
+
+print("Les fichiers ont été concaténés et les doublons supprimés.")'''
+
+big5 = pd.read_csv("/home/onyxia/work/ModelingFootballValue/players_stats_Big5.csv", header=[0, 1], low_memory=False)
+seasons_to_keep = [
+            '2010-2011', '2011-2012', '2012-2013', '2013-2014', 
+            '2014-2015', '2015-2016', '2016-2017', '2017-2018', 
+            '2018-2019', '2019-2020', '2020-2021', '2021-2022', 
+            '2022-2023', '2023-2024', '2024-2025'
+        ]
+big5 = big5[big5[('Unnamed: 0_level_0', 'Season')].isin(seasons_to_keep)]
+
+def rename_columns(df):
+    new_columns = []
+    for col in df.columns:
+        # Si le niveau supérieur commence par "Unnamed", on garde uniquement le niveau inférieur
+        if str(col[0]).startswith("Unnamed"):
+            new_columns.append(col[1])
+        else:
+            # Sinon, on combine le niveau supérieur et le niveau inférieur avec ":"
+            new_columns.append(f"{col[0]} : {col[1]}")
+    
+    # Appliquer les nouveaux noms de colonnes
+    df.columns = new_columns
+    return df
+
+# Exemple d'utilisation
+big5_renamed = rename_columns(big5)
+
+big5_renamed.to_csv("/home/onyxia/work/ModelingFootballValue/players_stats_Big5.csv", index=False)
+
+players_per_season = big5_renamed.groupby('Season')['Player'].nunique()
+print(players_per_season)
 
 
 
