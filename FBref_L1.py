@@ -155,9 +155,18 @@ def main(season, all_players_stats, existing_players):
         progress = {'season': season, 'last_club': None, 'last_player': None}
         save_progress(progress)
     
-    file_path = "/home/onyxia/work/ModelingFootballValue/players_stats_L1.csv"
+    file_path1 = "/home/onyxia/work/ModelingFootballValue/players_stats_L1.csv"
+    file_path2 = "/home/onyxia/work/ModelingFootballValue/players_stats_liga.csv"
+    file_path3 = "/home/onyxia/work/ModelingFootballValue/players_stats_bundes.csv"
+    file_path4 = "/home/onyxia/work/ModelingFootballValue/players_stats_PL.csv"
+    file_path5 = "/home/onyxia/work/ModelingFootballValue/players_stats_serieA.csv"
     try:
-        existing_data = pd.read_csv(file_path, header=[0, 1], low_memory=False)
+        existing_data1 = pd.read_csv(file_path1, header=[0, 1], low_memory=False)
+        existing_data2 = pd.read_csv(file_path2, header=[0, 1], low_memory=False)
+        existing_data3 = pd.read_csv(file_path3, header=[0, 1], low_memory=False)
+        existing_data4 = pd.read_csv(file_path4, header=[0, 1], low_memory=False)
+        existing_data5 = pd.read_csv(file_path5, header=[0, 1], low_memory=False)
+        existing_data = pd.concat
         existing_players = set(existing_data[('Unnamed: -1_level_0', 'Player')].unique())
     except FileNotFoundError:
         existing_data = pd.DataFrame()

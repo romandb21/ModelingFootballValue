@@ -167,11 +167,13 @@ def main(season, all_players_stats, existing_players):
         progress = {'season': season, 'last_club': None, 'last_player': None}
         save_progress(progress)
 
-    file_path = "/home/onyxia/work/ModelingFootballValue/players_stats_eredivisie.csv"
-
-    # Charger les données existantes
+    # Load existing data
+    file_path1 = "/home/onyxia/work/ModelingFootballValue/players_stats_eredivisie.csv"
+    file_path2 = "/home/onyxia/work/ModelingFootballValue/players_stats_Big5.csv"
     try:
-        existing_data = pd.read_csv(file_path, header=[0, 1], low_memory=False)
+        existing_data1 = pd.read_csv(file_path1, header=[0, 1], low_memory=False)
+        existing_data2 = pd.read_csv(file_path2, header=[0, 1], low_memory=False)
+        existing_data = pd.concat([existing_data1, existing_data2], ignore_index=True)
         existing_players = set(existing_data[('Unnamed: -1_level_0', 'Player')].unique())
     except FileNotFoundError:
         existing_data = pd.DataFrame()

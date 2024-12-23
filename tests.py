@@ -36,7 +36,7 @@ def get_club_urls(league_url, season):
     soup = BeautifulSoup(response.text, 'html.parser')
 
     # Replace dynamic ID based on the season
-    clubs_table = soup.find("table", id='big5_table')
+    clubs_table = soup.find("table", id="big5_table")
     
     if not clubs_table:
         raise ValueError(f"Could not find the clubs table with ID: big5_table")
@@ -50,7 +50,7 @@ def get_club_urls(league_url, season):
     
     return club_links
 
-#print(get_club_urls("https://fbref.com/en/comps/12/La-Liga-Stats", "2024-2025"))
+print(get_club_urls("https://fbref.com/en/comps/Big5/2024-2025/2024-2025-Big-5-European-Leagues-Stats", "2024-2025"))
 
 def scrape_club_players(club_url):
     """Get player links for a specific club"""
@@ -86,6 +86,7 @@ def scrape_club_players(club_url):
     
     return player_links
 
+#print(scrape_club_players(get_club_urls("https://fbref.com/en/comps/12/La-Liga-Stats", "2024-2025")[0]))
 
 def scrape_stats_player(player_url, existing_players):
     """Get statistics for a specific player if not already in the dataset."""
@@ -120,7 +121,6 @@ def scrape_stats_player(player_url, existing_players):
             print(f"Error reading HTML table for {player_name}: {e}")
             return pd.DataFrame()
 
-
         # Créer une copie explicite pour éviter le SettingWithCopyWarning
         stats_table = stats_table.copy()
 
@@ -130,6 +130,22 @@ def scrape_stats_player(player_url, existing_players):
         # Reorder columns for consistency
         new_order = [('Unnamed: -1_level_0', 'Player')] + list(stats_table.columns[:-1])
         stats_table = stats_table[new_order]
+
+        # **Ajout du filtre avec une liste de saisons**
+        # Définir la liste des saisons autorisées
+        allowed_seasons = [
+            '2010-2011', '2011-2012', '2012-2013', '2013-2014', 
+            '2014-2015', '2015-2016', '2016-2017', '2017-2018', 
+            '2018-2019', '2019-2020', '2020-2021', '2021-2022', 
+            '2022-2023', '2023-2024', '2024-2025'
+        ]
+
+        # Identifier la colonne de saison (par exemple : ('Unnamed: 0_level_0', 'Season'))
+        season_column = ('Unnamed: 0_level_0', 'Season')
+        if season_column in stats_table.columns:
+            stats_table = stats_table[
+                stats_table[season_column].isin(allowed_seasons)
+            ]
 
         return stats_table
     except Exception as e:
@@ -219,17 +235,6 @@ def main(season, all_players_stats, existing_players):
 
 
 
-def load_existing_data():
-    """Load existing players_stats.csv"""
-    file_path = "/home/onyxia/work/ModelingFootballValue/players_stats_Big5.csv"
-    try:
-        df = pd.read_csv(file_path, header=[0, 1], low_memory=False)
-        print("Loaded with multi-level headers successfully.")
-    except Exception as e:
-        print(f"Error loading file: {e}")
-        df = pd.DataFrame()
-
-
 
 def main_with_existing_data(season):
     """
@@ -261,11 +266,11 @@ def main_with_existing_data(season):
 
 
 
-seasons_list=['2020-2021', '2021-2022', '2022-2023', '2023-2024', '2024-2025']
+seasons_list=['2015-2016', '2016-2017', '2017-2018', '2018-2019', '2019-2020', '2020-2021', '2021-2022', '2022-2023', '2023-2024', '2024-2025']
 
-main_with_existing_data(seasons_list[0])
+#main_with_existing_data('2015-2016')
 
-def find_and_print_player_occurrences(player_name, file_path="/home/onyxia/work/ModelingFootballValue/players_stats_Big5.csv"):
+def find_and_print_player_occurrences(player_name, file_path="/home/onyxia/work/ModelingFootballValue/players_stats_L1.csv"):
     """
     Trouve et affiche les lignes où un joueur apparaît dans le fichier CSV.
     
@@ -278,23 +283,23 @@ def find_and_print_player_occurrences(player_name, file_path="/home/onyxia/work/
         df = pd.read_csv(file_path, header=[0, 1], low_memory=False)
         
         # Vérifier si la colonne "Player" existe
-        if ('Unnamed: -1_level_0', 'Player') not in df.columns:
-            raise KeyError("La colonne 'Player' n'existe pas dans le fichier.")
+        if ( 'Unnamed: -1_level_0',    'Player') not in df.columns:
+            raise KeyError("La colonne 'Squad' n'existe pas dans le fichier.")
         
         # Filtrer les lignes correspondant au joueur
-        player_rows = df[df[('Unnamed: -1_level_0', 'Player')] == player_name]
+        club_rows = df[df[( 'Unnamed: -1_level_0',    'Player')] == player_name]
         
         # Afficher le nombre d'occurrences
-        occurrences = player_rows.shape[0]
+        occurrences = club_rows.shape[0]
         print(f"Le joueur '{player_name}' apparaît {occurrences} fois dans le fichier.")
         
         # Afficher les lignes où il apparaît
         if occurrences > 0:
-            print(player_rows)
+            print(club_rows)
         else:
             print(f"Aucune ligne trouvée pour le joueur '{player_name}'.")
         
-        return occurrences, player_rows
+        return occurrences, club_rows
     except FileNotFoundError:
         print(f"Le fichier '{file_path}' est introuvable.")
         return 0, pd.DataFrame()
@@ -303,6 +308,4 @@ def find_and_print_player_occurrences(player_name, file_path="/home/onyxia/work/
         return 0, pd.DataFrame()
 
 
-#count_player_occurrences('Steve Mandanda', "/home/onyxia/work/ModelingFootballValue/players_stats_Big5.csv")
-
-
+find_and_print_player_occurrences('Steve Mandanda', "/home/onyxia/work/ModelingFootballValue/players_stats_L1.csv")
