@@ -1,0 +1,1460 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    
+        <script>
+            L_NO_TOUCH = false;
+            L_DISABLE_3D = false;
+        </script>
+    
+    <style>html, body {width: 100%;height: 100%;margin: 0;padding: 0;}</style>
+    <style>#map {position:absolute;top:0;bottom:0;right:0;left:0;}</style>
+    <script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.2.0/css/all.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/python-visualization/folium/folium/templates/leaflet.awesome.rotate.min.css"/>
+    
+            <meta name="viewport" content="width=device-width,
+                initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+            <style>
+                #map_f2cae57b15420a45fddefd35f3ec5690 {
+                    position: relative;
+                    width: 100.0%;
+                    height: 100.0%;
+                    left: 0.0%;
+                    top: 0.0%;
+                }
+                .leaflet-container { font-size: 1rem; }
+            </style>
+        
+</head>
+<body>
+    
+    
+            <div class="folium-map" id="map_f2cae57b15420a45fddefd35f3ec5690" ></div>
+        
+</body>
+<script>
+    
+    
+            var map_f2cae57b15420a45fddefd35f3ec5690 = L.map(
+                "map_f2cae57b15420a45fddefd35f3ec5690",
+                {
+                    center: [47.064960034210515, 2.795415281578947],
+                    crs: L.CRS.EPSG3857,
+                    ...{
+  "zoom": 10,
+  "zoomControl": true,
+  "preferCanvas": false,
+}
+
+                }
+            );
+
+            
+
+        
+    
+            var tile_layer_1a5dff6b204ebe22147c4960fcbd95c7 = L.tileLayer(
+                "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
+                {
+  "minZoom": 0,
+  "maxZoom": 19,
+  "maxNativeZoom": 19,
+  "noWrap": false,
+  "attribution": "\u0026copy; \u003ca href=\"https://www.openstreetmap.org/copyright\"\u003eOpenStreetMap\u003c/a\u003e contributors",
+  "subdomains": "abc",
+  "detectRetina": false,
+  "tms": false,
+  "opacity": 1,
+}
+
+            );
+        
+    
+            tile_layer_1a5dff6b204ebe22147c4960fcbd95c7.addTo(map_f2cae57b15420a45fddefd35f3ec5690);
+        
+    
+            var marker_0496d06dd5a16038a2cf01fda78561d2 = L.marker(
+                [47.460458, -0.530741],
+                {
+}
+            ).addTo(map_f2cae57b15420a45fddefd35f3ec5690);
+        
+    
+            var icon_26f20dab7e40327d908f4b1ba4f431c5 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "blue",
+  "iconColor": "white",
+  "icon": "info-sign",
+  "prefix": "glyphicon",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+            marker_0496d06dd5a16038a2cf01fda78561d2.setIcon(icon_26f20dab7e40327d908f4b1ba4f431c5);
+        
+    
+        var popup_38bfd67034d760486901eabad7b9bf05 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_56221052475563b83e720dfbd0f3f127 = $(`<div id="html_56221052475563b83e720dfbd0f3f127" style="width: 100.0%; height: 100.0%;">Stade Raymond-Kopa</div>`)[0];
+                popup_38bfd67034d760486901eabad7b9bf05.setContent(html_56221052475563b83e720dfbd0f3f127);
+            
+        
+
+        marker_0496d06dd5a16038a2cf01fda78561d2.bindPopup(popup_38bfd67034d760486901eabad7b9bf05)
+        ;
+
+        
+    
+    
+            var marker_a7d4d6dbd551a359e74e94f1f8ed4685 = L.marker(
+                [47.786765, 3.588654],
+                {
+}
+            ).addTo(map_f2cae57b15420a45fddefd35f3ec5690);
+        
+    
+            var icon_a5298e07460be62636dab65557c4c573 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "blue",
+  "iconColor": "white",
+  "icon": "info-sign",
+  "prefix": "glyphicon",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+            marker_a7d4d6dbd551a359e74e94f1f8ed4685.setIcon(icon_a5298e07460be62636dab65557c4c573);
+        
+    
+        var popup_985a1a9e51944f9da009a1e38fd3daaf = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_a8b1dc18855abb78df3ec94d0b9229be = $(`<div id="html_a8b1dc18855abb78df3ec94d0b9229be" style="width: 100.0%; height: 100.0%;">Stade de l'Abbé-Deschamps</div>`)[0];
+                popup_985a1a9e51944f9da009a1e38fd3daaf.setContent(html_a8b1dc18855abb78df3ec94d0b9229be);
+            
+        
+
+        marker_a7d4d6dbd551a359e74e94f1f8ed4685.bindPopup(popup_985a1a9e51944f9da009a1e38fd3daaf)
+        ;
+
+        
+    
+    
+            var marker_2be986964dcb09121c5787d7ae3677c8 = L.marker(
+                [48.403128, -4.46159],
+                {
+}
+            ).addTo(map_f2cae57b15420a45fddefd35f3ec5690);
+        
+    
+            var icon_8f2a5819cc971b26d1489264e2a5670c = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "blue",
+  "iconColor": "white",
+  "icon": "info-sign",
+  "prefix": "glyphicon",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+            marker_2be986964dcb09121c5787d7ae3677c8.setIcon(icon_8f2a5819cc971b26d1489264e2a5670c);
+        
+    
+        var popup_38b46620233fc11a2afa179964f35d0b = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_126026fa16b421d50d1d4cc2a10aa407 = $(`<div id="html_126026fa16b421d50d1d4cc2a10aa407" style="width: 100.0%; height: 100.0%;">Stade Francis-Le Blé</div>`)[0];
+                popup_38b46620233fc11a2afa179964f35d0b.setContent(html_126026fa16b421d50d1d4cc2a10aa407);
+            
+        
+
+        marker_2be986964dcb09121c5787d7ae3677c8.bindPopup(popup_38b46620233fc11a2afa179964f35d0b)
+        ;
+
+        
+    
+    
+            var marker_eaccd7327548743d8ad8de3ed3d021f0 = L.marker(
+                [49.49888, 0.169722],
+                {
+}
+            ).addTo(map_f2cae57b15420a45fddefd35f3ec5690);
+        
+    
+            var icon_3989f72be7d3bcce78b2f44070032ff0 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "blue",
+  "iconColor": "white",
+  "icon": "info-sign",
+  "prefix": "glyphicon",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+            marker_eaccd7327548743d8ad8de3ed3d021f0.setIcon(icon_3989f72be7d3bcce78b2f44070032ff0);
+        
+    
+        var popup_a0e42a9d59fa404e3b1e971d69f350af = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_44ba6c4b5b39c1083c34cc39e5515026 = $(`<div id="html_44ba6c4b5b39c1083c34cc39e5515026" style="width: 100.0%; height: 100.0%;">Stade Océane</div>`)[0];
+                popup_a0e42a9d59fa404e3b1e971d69f350af.setContent(html_44ba6c4b5b39c1083c34cc39e5515026);
+            
+        
+
+        marker_eaccd7327548743d8ad8de3ed3d021f0.bindPopup(popup_a0e42a9d59fa404e3b1e971d69f350af)
+        ;
+
+        
+    
+    
+            var marker_152e2f27a025d1dc266407532d113eee = L.marker(
+                [50.43278, 2.815],
+                {
+}
+            ).addTo(map_f2cae57b15420a45fddefd35f3ec5690);
+        
+    
+            var icon_eca531d25efaf0be22020c055f10acab = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "blue",
+  "iconColor": "white",
+  "icon": "info-sign",
+  "prefix": "glyphicon",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+            marker_152e2f27a025d1dc266407532d113eee.setIcon(icon_eca531d25efaf0be22020c055f10acab);
+        
+    
+        var popup_50b5d276cdb01126457b85a4e4a37e78 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_9322cbb5af1e2fc8a75dc7ee866b148e = $(`<div id="html_9322cbb5af1e2fc8a75dc7ee866b148e" style="width: 100.0%; height: 100.0%;">Stade Bollaert-Delelis</div>`)[0];
+                popup_50b5d276cdb01126457b85a4e4a37e78.setContent(html_9322cbb5af1e2fc8a75dc7ee866b148e);
+            
+        
+
+        marker_152e2f27a025d1dc266407532d113eee.bindPopup(popup_50b5d276cdb01126457b85a4e4a37e78)
+        ;
+
+        
+    
+    
+            var marker_d07b2bd8c99c9a9623beabe80fb5d87d = L.marker(
+                [50.611962, 3.130631],
+                {
+}
+            ).addTo(map_f2cae57b15420a45fddefd35f3ec5690);
+        
+    
+            var icon_99492f2a20aacd11ed8efa1089ffb971 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "blue",
+  "iconColor": "white",
+  "icon": "info-sign",
+  "prefix": "glyphicon",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+            marker_d07b2bd8c99c9a9623beabe80fb5d87d.setIcon(icon_99492f2a20aacd11ed8efa1089ffb971);
+        
+    
+        var popup_3f6f2f19467067b45f9d146ed9898808 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_9c4a5ef2cd32679471b1c0fb4a5bb27e = $(`<div id="html_9c4a5ef2cd32679471b1c0fb4a5bb27e" style="width: 100.0%; height: 100.0%;">Stade Pierre-Mauroy</div>`)[0];
+                popup_3f6f2f19467067b45f9d146ed9898808.setContent(html_9c4a5ef2cd32679471b1c0fb4a5bb27e);
+            
+        
+
+        marker_d07b2bd8c99c9a9623beabe80fb5d87d.bindPopup(popup_3f6f2f19467067b45f9d146ed9898808)
+        ;
+
+        
+    
+    
+            var marker_a696023c20491a6346301b4b325eac39 = L.marker(
+                [45.7652477, 4.9818707],
+                {
+}
+            ).addTo(map_f2cae57b15420a45fddefd35f3ec5690);
+        
+    
+            var icon_a58c18d005ef6da816a1670c108a1457 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "blue",
+  "iconColor": "white",
+  "icon": "info-sign",
+  "prefix": "glyphicon",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+            marker_a696023c20491a6346301b4b325eac39.setIcon(icon_a58c18d005ef6da816a1670c108a1457);
+        
+    
+        var popup_0d58808dd02fd6512ccf8babf649db16 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_013b5aade216fde642b87139081d55e2 = $(`<div id="html_013b5aade216fde642b87139081d55e2" style="width: 100.0%; height: 100.0%;">Parc Olympique lyonnais</div>`)[0];
+                popup_0d58808dd02fd6512ccf8babf649db16.setContent(html_013b5aade216fde642b87139081d55e2);
+            
+        
+
+        marker_a696023c20491a6346301b4b325eac39.bindPopup(popup_0d58808dd02fd6512ccf8babf649db16)
+        ;
+
+        
+    
+    
+            var marker_a9626fa5f2521fcf0c0a3999bcfec19f = L.marker(
+                [43.269806, 5.395922],
+                {
+}
+            ).addTo(map_f2cae57b15420a45fddefd35f3ec5690);
+        
+    
+            var icon_320af2328fd65a2d04dc31fbcfbcf390 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "blue",
+  "iconColor": "white",
+  "icon": "info-sign",
+  "prefix": "glyphicon",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+            marker_a9626fa5f2521fcf0c0a3999bcfec19f.setIcon(icon_320af2328fd65a2d04dc31fbcfbcf390);
+        
+    
+        var popup_609161943b83fd12df5bcb0f6900d3d9 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_b9a1ff85d9c33312072b2344f87b2928 = $(`<div id="html_b9a1ff85d9c33312072b2344f87b2928" style="width: 100.0%; height: 100.0%;">Stade Vélodrome</div>`)[0];
+                popup_609161943b83fd12df5bcb0f6900d3d9.setContent(html_b9a1ff85d9c33312072b2344f87b2928);
+            
+        
+
+        marker_a9626fa5f2521fcf0c0a3999bcfec19f.bindPopup(popup_609161943b83fd12df5bcb0f6900d3d9)
+        ;
+
+        
+    
+    
+            var marker_1c2958e43e9cec70addd232e3d1eecc8 = L.marker(
+                [43.7275, 7.415555],
+                {
+}
+            ).addTo(map_f2cae57b15420a45fddefd35f3ec5690);
+        
+    
+            var icon_a5dcf508d665d710ace112e68d442a37 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "blue",
+  "iconColor": "white",
+  "icon": "info-sign",
+  "prefix": "glyphicon",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+            marker_1c2958e43e9cec70addd232e3d1eecc8.setIcon(icon_a5dcf508d665d710ace112e68d442a37);
+        
+    
+        var popup_a744abc3d70487af1ef3d4e8f3889192 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_3b5fa8f6aad848c00205387f6ad6a768 = $(`<div id="html_3b5fa8f6aad848c00205387f6ad6a768" style="width: 100.0%; height: 100.0%;">Stade Louis-II</div>`)[0];
+                popup_a744abc3d70487af1ef3d4e8f3889192.setContent(html_3b5fa8f6aad848c00205387f6ad6a768);
+            
+        
+
+        marker_1c2958e43e9cec70addd232e3d1eecc8.bindPopup(popup_a744abc3d70487af1ef3d4e8f3889192)
+        ;
+
+        
+    
+    
+            var marker_f88aa97409494b0ad5457bacf1c0fd1f = L.marker(
+                [43.621856, 3.8122183],
+                {
+}
+            ).addTo(map_f2cae57b15420a45fddefd35f3ec5690);
+        
+    
+            var icon_8eab3551b1d7e13e321a06764bfc406b = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "blue",
+  "iconColor": "white",
+  "icon": "info-sign",
+  "prefix": "glyphicon",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+            marker_f88aa97409494b0ad5457bacf1c0fd1f.setIcon(icon_8eab3551b1d7e13e321a06764bfc406b);
+        
+    
+        var popup_e84b9e4f3f03b2c45a07add2c0b32586 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_7ffc1acb240d1961375cd347fdb843a1 = $(`<div id="html_7ffc1acb240d1961375cd347fdb843a1" style="width: 100.0%; height: 100.0%;">Stade de la Mosson</div>`)[0];
+                popup_e84b9e4f3f03b2c45a07add2c0b32586.setContent(html_7ffc1acb240d1961375cd347fdb843a1);
+            
+        
+
+        marker_f88aa97409494b0ad5457bacf1c0fd1f.bindPopup(popup_e84b9e4f3f03b2c45a07add2c0b32586)
+        ;
+
+        
+    
+    
+            var marker_a4f209f50f5fbcd6516937aaa2f64c93 = L.marker(
+                [47.255631, -1.525375],
+                {
+}
+            ).addTo(map_f2cae57b15420a45fddefd35f3ec5690);
+        
+    
+            var icon_6985f6fccb0237f62cf646943f450a0c = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "blue",
+  "iconColor": "white",
+  "icon": "info-sign",
+  "prefix": "glyphicon",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+            marker_a4f209f50f5fbcd6516937aaa2f64c93.setIcon(icon_6985f6fccb0237f62cf646943f450a0c);
+        
+    
+        var popup_f5291a940565f9ecc2cf475c7cbdac71 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_19372c596ca16b352d73befe7e41c333 = $(`<div id="html_19372c596ca16b352d73befe7e41c333" style="width: 100.0%; height: 100.0%;">Stade de la Beaujoire</div>`)[0];
+                popup_f5291a940565f9ecc2cf475c7cbdac71.setContent(html_19372c596ca16b352d73befe7e41c333);
+            
+        
+
+        marker_a4f209f50f5fbcd6516937aaa2f64c93.bindPopup(popup_f5291a940565f9ecc2cf475c7cbdac71)
+        ;
+
+        
+    
+    
+            var marker_7410ce446fd9cc2051301df81a3ffbab = L.marker(
+                [43.704926, 7.192608],
+                {
+}
+            ).addTo(map_f2cae57b15420a45fddefd35f3ec5690);
+        
+    
+            var icon_af546e4478907d53e0ec7b72063ff5f6 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "blue",
+  "iconColor": "white",
+  "icon": "info-sign",
+  "prefix": "glyphicon",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+            marker_7410ce446fd9cc2051301df81a3ffbab.setIcon(icon_af546e4478907d53e0ec7b72063ff5f6);
+        
+    
+        var popup_50a10685bd54c1d0b6e2c8df910aef38 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_e3f4971c096007a20a265a40267855ba = $(`<div id="html_e3f4971c096007a20a265a40267855ba" style="width: 100.0%; height: 100.0%;">Allianz Riviera</div>`)[0];
+                popup_50a10685bd54c1d0b6e2c8df910aef38.setContent(html_e3f4971c096007a20a265a40267855ba);
+            
+        
+
+        marker_7410ce446fd9cc2051301df81a3ffbab.bindPopup(popup_50a10685bd54c1d0b6e2c8df910aef38)
+        ;
+
+        
+    
+    
+            var marker_1cb9b6b3480334fa4e80434e4db65539 = L.marker(
+                [48.8413634, 2.2530693],
+                {
+}
+            ).addTo(map_f2cae57b15420a45fddefd35f3ec5690);
+        
+    
+            var icon_411ac335ad057f3a7bade22d2ecafc5e = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "blue",
+  "iconColor": "white",
+  "icon": "info-sign",
+  "prefix": "glyphicon",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+            marker_1cb9b6b3480334fa4e80434e4db65539.setIcon(icon_411ac335ad057f3a7bade22d2ecafc5e);
+        
+    
+        var popup_7b3679993d0ebf26174afab83de36a51 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_41f91508f34aa1beca2c6cfd211a1c90 = $(`<div id="html_41f91508f34aa1beca2c6cfd211a1c90" style="width: 100.0%; height: 100.0%;">Parc des Princes</div>`)[0];
+                popup_7b3679993d0ebf26174afab83de36a51.setContent(html_41f91508f34aa1beca2c6cfd211a1c90);
+            
+        
+
+        marker_1cb9b6b3480334fa4e80434e4db65539.bindPopup(popup_7b3679993d0ebf26174afab83de36a51)
+        ;
+
+        
+    
+    
+            var marker_64b769935a4ebfe7be78ea4fe6f0fb2d = L.marker(
+                [49.246704, 4.024962],
+                {
+}
+            ).addTo(map_f2cae57b15420a45fddefd35f3ec5690);
+        
+    
+            var icon_5114fc584135470f762848ab8e9b19a6 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "blue",
+  "iconColor": "white",
+  "icon": "info-sign",
+  "prefix": "glyphicon",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+            marker_64b769935a4ebfe7be78ea4fe6f0fb2d.setIcon(icon_5114fc584135470f762848ab8e9b19a6);
+        
+    
+        var popup_5f687722e04c920186dfd14c5d59ebb1 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_f2d184eef7e95aa07ec629a31220bac9 = $(`<div id="html_f2d184eef7e95aa07ec629a31220bac9" style="width: 100.0%; height: 100.0%;">Stade Auguste-Delaune</div>`)[0];
+                popup_5f687722e04c920186dfd14c5d59ebb1.setContent(html_f2d184eef7e95aa07ec629a31220bac9);
+            
+        
+
+        marker_64b769935a4ebfe7be78ea4fe6f0fb2d.bindPopup(popup_5f687722e04c920186dfd14c5d59ebb1)
+        ;
+
+        
+    
+    
+            var marker_5574f4f3ef33b9588ff84917420fcbd9 = L.marker(
+                [48.1075, -1.712778],
+                {
+}
+            ).addTo(map_f2cae57b15420a45fddefd35f3ec5690);
+        
+    
+            var icon_a5c916920c097bd11a4b15eec84974ae = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "blue",
+  "iconColor": "white",
+  "icon": "info-sign",
+  "prefix": "glyphicon",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+            marker_5574f4f3ef33b9588ff84917420fcbd9.setIcon(icon_a5c916920c097bd11a4b15eec84974ae);
+        
+    
+        var popup_93c972ebe37930460e0660674fc7e624 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_755c18357654c3c85da49f185afe0734 = $(`<div id="html_755c18357654c3c85da49f185afe0734" style="width: 100.0%; height: 100.0%;">Roazhon Park</div>`)[0];
+                popup_93c972ebe37930460e0660674fc7e624.setContent(html_755c18357654c3c85da49f185afe0734);
+            
+        
+
+        marker_5574f4f3ef33b9588ff84917420fcbd9.bindPopup(popup_93c972ebe37930460e0660674fc7e624)
+        ;
+
+        
+    
+    
+            var marker_a3ad961457a59c2e34570035207f3c7c = L.marker(
+                [45.460856, 4.390344],
+                {
+}
+            ).addTo(map_f2cae57b15420a45fddefd35f3ec5690);
+        
+    
+            var icon_4c0b3431f50d6ccd4dc16086b9b2b44a = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "blue",
+  "iconColor": "white",
+  "icon": "info-sign",
+  "prefix": "glyphicon",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+            marker_a3ad961457a59c2e34570035207f3c7c.setIcon(icon_4c0b3431f50d6ccd4dc16086b9b2b44a);
+        
+    
+        var popup_85e9c47240118680c53f3791121d77b0 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_c296ba335b9360c17684ff497e2d9bea = $(`<div id="html_c296ba335b9360c17684ff497e2d9bea" style="width: 100.0%; height: 100.0%;">Stade Geoffroy-Guichard</div>`)[0];
+                popup_85e9c47240118680c53f3791121d77b0.setContent(html_c296ba335b9360c17684ff497e2d9bea);
+            
+        
+
+        marker_a3ad961457a59c2e34570035207f3c7c.bindPopup(popup_85e9c47240118680c53f3791121d77b0)
+        ;
+
+        
+    
+    
+            var marker_e714c0b6b823fb1492a789d553ad515b = L.marker(
+                [48.560064, 7.754969],
+                {
+}
+            ).addTo(map_f2cae57b15420a45fddefd35f3ec5690);
+        
+    
+            var icon_c7a12318599c8f1a089af8f8d7a0fb6e = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "blue",
+  "iconColor": "white",
+  "icon": "info-sign",
+  "prefix": "glyphicon",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+            marker_e714c0b6b823fb1492a789d553ad515b.setIcon(icon_c7a12318599c8f1a089af8f8d7a0fb6e);
+        
+    
+        var popup_ab4988c7c8d10d08d9084e1c14f12645 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_0598ec92bd5eb4ceb98f8aa8a1d29624 = $(`<div id="html_0598ec92bd5eb4ceb98f8aa8a1d29624" style="width: 100.0%; height: 100.0%;">Stade de la Meinau</div>`)[0];
+                popup_ab4988c7c8d10d08d9084e1c14f12645.setContent(html_0598ec92bd5eb4ceb98f8aa8a1d29624);
+            
+        
+
+        marker_e714c0b6b823fb1492a789d553ad515b.bindPopup(popup_ab4988c7c8d10d08d9084e1c14f12645)
+        ;
+
+        
+    
+    
+            var marker_feaa90d594c51e2fc9327594ff3ab8d9 = L.marker(
+                [43.583296, 1.434055],
+                {
+}
+            ).addTo(map_f2cae57b15420a45fddefd35f3ec5690);
+        
+    
+            var icon_e49404061dccd2a5cf55ef449a7121f6 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "blue",
+  "iconColor": "white",
+  "icon": "info-sign",
+  "prefix": "glyphicon",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+            marker_feaa90d594c51e2fc9327594ff3ab8d9.setIcon(icon_e49404061dccd2a5cf55ef449a7121f6);
+        
+    
+        var popup_20e3c0937f91443c6d3893d9fcc1947e = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_d4fc3db01c8179acbcc75d2de6ec1c35 = $(`<div id="html_d4fc3db01c8179acbcc75d2de6ec1c35" style="width: 100.0%; height: 100.0%;">Stadium de Toulouse</div>`)[0];
+                popup_20e3c0937f91443c6d3893d9fcc1947e.setContent(html_d4fc3db01c8179acbcc75d2de6ec1c35);
+            
+        
+
+        marker_feaa90d594c51e2fc9327594ff3ab8d9.bindPopup(popup_20e3c0937f91443c6d3893d9fcc1947e)
+        ;
+
+        
+    
+    
+            var marker_805e00ad5c01d76df844c74bd82ea89b = L.marker(
+                [41.93157, 8.77887],
+                {
+}
+            ).addTo(map_f2cae57b15420a45fddefd35f3ec5690);
+        
+    
+            var icon_33ed0de4ca56ddba6a7ba9ad8adb8e91 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "green",
+  "iconColor": "white",
+  "icon": "info-sign",
+  "prefix": "glyphicon",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+            marker_805e00ad5c01d76df844c74bd82ea89b.setIcon(icon_33ed0de4ca56ddba6a7ba9ad8adb8e91);
+        
+    
+        var popup_7e957e3b8ddde4d51a201e8ff6808fb7 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_e207eebe56f911f227d70b9c69b53b90 = $(`<div id="html_e207eebe56f911f227d70b9c69b53b90" style="width: 100.0%; height: 100.0%;">Stade Michel-Moretti</div>`)[0];
+                popup_7e957e3b8ddde4d51a201e8ff6808fb7.setContent(html_e207eebe56f911f227d70b9c69b53b90);
+            
+        
+
+        marker_805e00ad5c01d76df844c74bd82ea89b.bindPopup(popup_7e957e3b8ddde4d51a201e8ff6808fb7)
+        ;
+
+        
+    
+    
+            var marker_fbeb48ce3a7a44313f461fef7905448f = L.marker(
+                [49.893889, 2.263611],
+                {
+}
+            ).addTo(map_f2cae57b15420a45fddefd35f3ec5690);
+        
+    
+            var icon_69c05b33cb6271ec7b43a78f42e5f463 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "green",
+  "iconColor": "white",
+  "icon": "info-sign",
+  "prefix": "glyphicon",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+            marker_fbeb48ce3a7a44313f461fef7905448f.setIcon(icon_69c05b33cb6271ec7b43a78f42e5f463);
+        
+    
+        var popup_16e1c13c5ded8d94e4b3adc56d5f0a9b = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_3353fee162f0803f1580571ecfdcc2b6 = $(`<div id="html_3353fee162f0803f1580571ecfdcc2b6" style="width: 100.0%; height: 100.0%;">Stade de la Licorne</div>`)[0];
+                popup_16e1c13c5ded8d94e4b3adc56d5f0a9b.setContent(html_3353fee162f0803f1580571ecfdcc2b6);
+            
+        
+
+        marker_fbeb48ce3a7a44313f461fef7905448f.bindPopup(popup_16e1c13c5ded8d94e4b3adc56d5f0a9b)
+        ;
+
+        
+    
+    
+            var marker_0a6e041490d39b4c4c47df5b0cfd14f6 = L.marker(
+                [45.9164972, 6.1180544],
+                {
+}
+            ).addTo(map_f2cae57b15420a45fddefd35f3ec5690);
+        
+    
+            var icon_2984d6148da88991154d9c464130f939 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "green",
+  "iconColor": "white",
+  "icon": "info-sign",
+  "prefix": "glyphicon",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+            marker_0a6e041490d39b4c4c47df5b0cfd14f6.setIcon(icon_2984d6148da88991154d9c464130f939);
+        
+    
+        var popup_b812692402e6c791b333ad6085080b59 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_2843bce77cee5f01217244822d0defff = $(`<div id="html_2843bce77cee5f01217244822d0defff" style="width: 100.0%; height: 100.0%;">Parc des Sports d'Annecy</div>`)[0];
+                popup_b812692402e6c791b333ad6085080b59.setContent(html_2843bce77cee5f01217244822d0defff);
+            
+        
+
+        marker_0a6e041490d39b4c4c47df5b0cfd14f6.bindPopup(popup_b812692402e6c791b333ad6085080b59)
+        ;
+
+        
+    
+    
+            var marker_eba16c545fd9302c14c93ce56a226f86 = L.marker(
+                [42.651395, 9.442758],
+                {
+}
+            ).addTo(map_f2cae57b15420a45fddefd35f3ec5690);
+        
+    
+            var icon_d59683714f680694828712c1f108d47c = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "green",
+  "iconColor": "white",
+  "icon": "info-sign",
+  "prefix": "glyphicon",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+            marker_eba16c545fd9302c14c93ce56a226f86.setIcon(icon_d59683714f680694828712c1f108d47c);
+        
+    
+        var popup_e409ada4b7d514747915c68d3a5cf1f9 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_81f1571337e0dc920e1a1ec9fba897fc = $(`<div id="html_81f1571337e0dc920e1a1ec9fba897fc" style="width: 100.0%; height: 100.0%;">Stade Armand-Cesari</div>`)[0];
+                popup_e409ada4b7d514747915c68d3a5cf1f9.setContent(html_81f1571337e0dc920e1a1ec9fba897fc);
+            
+        
+
+        marker_eba16c545fd9302c14c93ce56a226f86.bindPopup(popup_e409ada4b7d514747915c68d3a5cf1f9)
+        ;
+
+        
+    
+    
+            var marker_b9774592f38aeb3d0ebb59011250f548 = L.marker(
+                [49.179426, -0.396713],
+                {
+}
+            ).addTo(map_f2cae57b15420a45fddefd35f3ec5690);
+        
+    
+            var icon_718b2ed308a23a3d15ac253da2ecd7b9 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "green",
+  "iconColor": "white",
+  "icon": "info-sign",
+  "prefix": "glyphicon",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+            marker_b9774592f38aeb3d0ebb59011250f548.setIcon(icon_718b2ed308a23a3d15ac253da2ecd7b9);
+        
+    
+        var popup_2604de12517c003dea3e9fa48cde7911 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_acdb0e8cf6fb2b24d35cde721c77b6af = $(`<div id="html_acdb0e8cf6fb2b24d35cde721c77b6af" style="width: 100.0%; height: 100.0%;">Stade Michel-d'Ornano</div>`)[0];
+                popup_2604de12517c003dea3e9fa48cde7911.setContent(html_acdb0e8cf6fb2b24d35cde721c77b6af);
+            
+        
+
+        marker_b9774592f38aeb3d0ebb59011250f548.bindPopup(popup_2604de12517c003dea3e9fa48cde7911)
+        ;
+
+        
+    
+    
+            var marker_c319ac992e1477740123b1a18cacfbb3 = L.marker(
+                [45.81584, 3.12162],
+                {
+}
+            ).addTo(map_f2cae57b15420a45fddefd35f3ec5690);
+        
+    
+            var icon_e32ca1bc77ecbb4badadf25ff6cdf7d5 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "green",
+  "iconColor": "white",
+  "icon": "info-sign",
+  "prefix": "glyphicon",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+            marker_c319ac992e1477740123b1a18cacfbb3.setIcon(icon_e32ca1bc77ecbb4badadf25ff6cdf7d5);
+        
+    
+        var popup_ea9446957a93f6043a0bc913b786fcfc = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_09f20b521c78aeeadb579513c295d25e = $(`<div id="html_09f20b521c78aeeadb579513c295d25e" style="width: 100.0%; height: 100.0%;">Stade Gabriel-Montpied</div>`)[0];
+                popup_ea9446957a93f6043a0bc913b786fcfc.setContent(html_09f20b521c78aeeadb579513c295d25e);
+            
+        
+
+        marker_c319ac992e1477740123b1a18cacfbb3.bindPopup(popup_ea9446957a93f6043a0bc913b786fcfc)
+        ;
+
+        
+    
+    
+            var marker_592373054d55179165e9a55a389fb7ae = L.marker(
+                [51.0356, 2.39028],
+                {
+}
+            ).addTo(map_f2cae57b15420a45fddefd35f3ec5690);
+        
+    
+            var icon_c7916bdd780a1f2f4ec411f71b7204c5 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "green",
+  "iconColor": "white",
+  "icon": "info-sign",
+  "prefix": "glyphicon",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+            marker_592373054d55179165e9a55a389fb7ae.setIcon(icon_c7916bdd780a1f2f4ec411f71b7204c5);
+        
+    
+        var popup_675167277e382410937beb46a8af4231 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_28121bccdc4395faa4e41ade41880bb5 = $(`<div id="html_28121bccdc4395faa4e41ade41880bb5" style="width: 100.0%; height: 100.0%;">Stade Marcel-Tribut</div>`)[0];
+                popup_675167277e382410937beb46a8af4231.setContent(html_28121bccdc4395faa4e41ade41880bb5);
+            
+        
+
+        marker_592373054d55179165e9a55a389fb7ae.bindPopup(popup_675167277e382410937beb46a8af4231)
+        ;
+
+        
+    
+    
+            var marker_2d42b01115f29b098614fad1dd26318e = L.marker(
+                [45.187428, 5.740099],
+                {
+}
+            ).addTo(map_f2cae57b15420a45fddefd35f3ec5690);
+        
+    
+            var icon_5bda21d39dfd74aa51663608bb37b379 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "green",
+  "iconColor": "white",
+  "icon": "info-sign",
+  "prefix": "glyphicon",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+            marker_2d42b01115f29b098614fad1dd26318e.setIcon(icon_5bda21d39dfd74aa51663608bb37b379);
+        
+    
+        var popup_b81dfbec6fbc9f32eb961d6b9887e72e = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_87fc5ba71dcd63f0fe24c101f1a254cf = $(`<div id="html_87fc5ba71dcd63f0fe24c101f1a254cf" style="width: 100.0%; height: 100.0%;">Stade des Alpes</div>`)[0];
+                popup_b81dfbec6fbc9f32eb961d6b9887e72e.setContent(html_87fc5ba71dcd63f0fe24c101f1a254cf);
+            
+        
+
+        marker_2d42b01115f29b098614fad1dd26318e.bindPopup(popup_b81dfbec6fbc9f32eb961d6b9887e72e)
+        ;
+
+        
+    
+    
+            var marker_da30efbb85aaf0860251946164bfd755 = L.marker(
+                [48.566116, -3.16445],
+                {
+}
+            ).addTo(map_f2cae57b15420a45fddefd35f3ec5690);
+        
+    
+            var icon_44910b15b12271861292d9d421ee02ea = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "green",
+  "iconColor": "white",
+  "icon": "info-sign",
+  "prefix": "glyphicon",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+            marker_da30efbb85aaf0860251946164bfd755.setIcon(icon_44910b15b12271861292d9d421ee02ea);
+        
+    
+        var popup_a9a64b2868a808c2479d56549e26f2ce = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_8c8ee0c1665a716533df80e29a47a600 = $(`<div id="html_8c8ee0c1665a716533df80e29a47a600" style="width: 100.0%; height: 100.0%;">Stade de Roudourou</div>`)[0];
+                popup_a9a64b2868a808c2479d56549e26f2ce.setContent(html_8c8ee0c1665a716533df80e29a47a600);
+            
+        
+
+        marker_da30efbb85aaf0860251946164bfd755.bindPopup(popup_a9a64b2868a808c2479d56549e26f2ce)
+        ;
+
+        
+    
+    
+            var marker_df8c0a08ff716970559d3fd0c75f8c51 = L.marker(
+                [48.0824, -0.7548],
+                {
+}
+            ).addTo(map_f2cae57b15420a45fddefd35f3ec5690);
+        
+    
+            var icon_f4e88518bb883fd57e71f09f209c6dc4 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "green",
+  "iconColor": "white",
+  "icon": "info-sign",
+  "prefix": "glyphicon",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+            marker_df8c0a08ff716970559d3fd0c75f8c51.setIcon(icon_f4e88518bb883fd57e71f09f209c6dc4);
+        
+    
+        var popup_b29e218c14886d676e9dd3313ec7ff7d = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_c76dd161978f5301f7ac74c682b9ceae = $(`<div id="html_c76dd161978f5301f7ac74c682b9ceae" style="width: 100.0%; height: 100.0%;">Stade Francis-Le-Basser</div>`)[0];
+                popup_b29e218c14886d676e9dd3313ec7ff7d.setContent(html_c76dd161978f5301f7ac74c682b9ceae);
+            
+        
+
+        marker_df8c0a08ff716970559d3fd0c75f8c51.bindPopup(popup_b29e218c14886d676e9dd3313ec7ff7d)
+        ;
+
+        
+    
+    
+            var marker_2fc3fe1c7cf739af1715d7353b536fa0 = L.marker(
+                [47.748848, -3.369043],
+                {
+}
+            ).addTo(map_f2cae57b15420a45fddefd35f3ec5690);
+        
+    
+            var icon_f5d8a3cb0d18db2f6de7ceeb27f03304 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "green",
+  "iconColor": "white",
+  "icon": "info-sign",
+  "prefix": "glyphicon",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+            marker_2fc3fe1c7cf739af1715d7353b536fa0.setIcon(icon_f5d8a3cb0d18db2f6de7ceeb27f03304);
+        
+    
+        var popup_0711bcfd6b30d847838843f9abcd49ca = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_8c1f371b6a6c33c63d6d763dabc2874d = $(`<div id="html_8c1f371b6a6c33c63d6d763dabc2874d" style="width: 100.0%; height: 100.0%;">Stade du Moustoir</div>`)[0];
+                popup_0711bcfd6b30d847838843f9abcd49ca.setContent(html_8c1f371b6a6c33c63d6d763dabc2874d);
+            
+        
+
+        marker_2fc3fe1c7cf739af1715d7353b536fa0.bindPopup(popup_0711bcfd6b30d847838843f9abcd49ca)
+        ;
+
+        
+    
+    
+            var marker_0ae16c7498396e1f2674c6bc39eb7924 = L.marker(
+                [46.595178, 4.055883],
+                {
+}
+            ).addTo(map_f2cae57b15420a45fddefd35f3ec5690);
+        
+    
+            var icon_853cc51d48823f1758b6df61e566f242 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "green",
+  "iconColor": "white",
+  "icon": "info-sign",
+  "prefix": "glyphicon",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+            marker_0ae16c7498396e1f2674c6bc39eb7924.setIcon(icon_853cc51d48823f1758b6df61e566f242);
+        
+    
+        var popup_b959feb1490d8dd0965c3a06bcee4b8c = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_ca25d91935e10a33a1aae3945d8f0916 = $(`<div id="html_ca25d91935e10a33a1aae3945d8f0916" style="width: 100.0%; height: 100.0%;">Stade Jean-Laville</div>`)[0];
+                popup_b959feb1490d8dd0965c3a06bcee4b8c.setContent(html_ca25d91935e10a33a1aae3945d8f0916);
+            
+        
+
+        marker_0ae16c7498396e1f2674c6bc39eb7924.bindPopup(popup_b959feb1490d8dd0965c3a06bcee4b8c)
+        ;
+
+        
+    
+    
+            var marker_9d041cfb8149ee12e61fd0d06d3cb804 = L.marker(
+                [49.1098, 6.1593],
+                {
+}
+            ).addTo(map_f2cae57b15420a45fddefd35f3ec5690);
+        
+    
+            var icon_3973698fac4be3952b5264d31de98148 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "green",
+  "iconColor": "white",
+  "icon": "info-sign",
+  "prefix": "glyphicon",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+            marker_9d041cfb8149ee12e61fd0d06d3cb804.setIcon(icon_3973698fac4be3952b5264d31de98148);
+        
+    
+        var popup_b58aba10d9620b5699987a4d54046cc2 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_ee4715318d0defb0408f3c3b799f5a96 = $(`<div id="html_ee4715318d0defb0408f3c3b799f5a96" style="width: 100.0%; height: 100.0%;">Stade Saint-Symphorien</div>`)[0];
+                popup_b58aba10d9620b5699987a4d54046cc2.setContent(html_ee4715318d0defb0408f3c3b799f5a96);
+            
+        
+
+        marker_9d041cfb8149ee12e61fd0d06d3cb804.bindPopup(popup_b58aba10d9620b5699987a4d54046cc2)
+        ;
+
+        
+    
+    
+            var marker_74d358cb1b0f65010970e4109947ef39 = L.marker(
+                [48.818526, 2.34646],
+                {
+}
+            ).addTo(map_f2cae57b15420a45fddefd35f3ec5690);
+        
+    
+            var icon_0b1815a3f71077928c4a1804ce12cf8c = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "green",
+  "iconColor": "white",
+  "icon": "info-sign",
+  "prefix": "glyphicon",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+            marker_74d358cb1b0f65010970e4109947ef39.setIcon(icon_0b1815a3f71077928c4a1804ce12cf8c);
+        
+    
+        var popup_b5c8c5fafc9cfef7e7cb15bc5147c3df = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_7c7edd0b1bbdcc1abaef0943ee851240 = $(`<div id="html_7c7edd0b1bbdcc1abaef0943ee851240" style="width: 100.0%; height: 100.0%;">Stade Charléty</div>`)[0];
+                popup_b5c8c5fafc9cfef7e7cb15bc5147c3df.setContent(html_7c7edd0b1bbdcc1abaef0943ee851240);
+            
+        
+
+        marker_74d358cb1b0f65010970e4109947ef39.bindPopup(popup_b5c8c5fafc9cfef7e7cb15bc5147c3df)
+        ;
+
+        
+    
+    
+            var marker_99c01fe32e04220b2618396dcd2f5cd7 = L.marker(
+                [43.30803, -0.325681],
+                {
+}
+            ).addTo(map_f2cae57b15420a45fddefd35f3ec5690);
+        
+    
+            var icon_f64d2f246f2240b7f96ef07d2f7f939c = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "green",
+  "iconColor": "white",
+  "icon": "info-sign",
+  "prefix": "glyphicon",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+            marker_99c01fe32e04220b2618396dcd2f5cd7.setIcon(icon_f64d2f246f2240b7f96ef07d2f7f939c);
+        
+    
+        var popup_192c70212f7defe0beb0b461aa7324a6 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_8bba7a3748429412c7ddc45c425a4b53 = $(`<div id="html_8bba7a3748429412c7ddc45c425a4b53" style="width: 100.0%; height: 100.0%;">Nouste Camp</div>`)[0];
+                popup_192c70212f7defe0beb0b461aa7324a6.setContent(html_8bba7a3748429412c7ddc45c425a4b53);
+            
+        
+
+        marker_99c01fe32e04220b2618396dcd2f5cd7.bindPopup(popup_192c70212f7defe0beb0b461aa7324a6)
+        ;
+
+        
+    
+    
+            var marker_a5651de54e4b802fb6de51437291b5e6 = L.marker(
+                [48.905833, 2.340833],
+                {
+}
+            ).addTo(map_f2cae57b15420a45fddefd35f3ec5690);
+        
+    
+            var icon_73770f9d40d3707ad0f4b8b8f2fbd414 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "green",
+  "iconColor": "white",
+  "icon": "info-sign",
+  "prefix": "glyphicon",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+            marker_a5651de54e4b802fb6de51437291b5e6.setIcon(icon_73770f9d40d3707ad0f4b8b8f2fbd414);
+        
+    
+        var popup_015d988743470be41709cffcd0a443e4 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_d836c87f3682fe00927d4ce322228466 = $(`<div id="html_d836c87f3682fe00927d4ce322228466" style="width: 100.0%; height: 100.0%;">Stade Bauer</div>`)[0];
+                popup_015d988743470be41709cffcd0a443e4.setContent(html_d836c87f3682fe00927d4ce322228466);
+            
+        
+
+        marker_a5651de54e4b802fb6de51437291b5e6.bindPopup(popup_015d988743470be41709cffcd0a443e4)
+        ;
+
+        
+    
+    
+            var marker_2412ccd21ae4bf0d916f8cf520ce1806 = L.marker(
+                [44.35161, 2.56376],
+                {
+}
+            ).addTo(map_f2cae57b15420a45fddefd35f3ec5690);
+        
+    
+            var icon_30e121fb4061b1402981ce2c79c0f43b = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "green",
+  "iconColor": "white",
+  "icon": "info-sign",
+  "prefix": "glyphicon",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+            marker_2412ccd21ae4bf0d916f8cf520ce1806.setIcon(icon_30e121fb4061b1402981ce2c79c0f43b);
+        
+    
+        var popup_98bdac85bfafbace4100b92f5249690e = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_4ecb31217cef407d84b4259e8d3a899f = $(`<div id="html_4ecb31217cef407d84b4259e8d3a899f" style="width: 100.0%; height: 100.0%;">Stade Paul-Lignon</div>`)[0];
+                popup_98bdac85bfafbace4100b92f5249690e.setContent(html_4ecb31217cef407d84b4259e8d3a899f);
+            
+        
+
+        marker_2412ccd21ae4bf0d916f8cf520ce1806.bindPopup(popup_98bdac85bfafbace4100b92f5249690e)
+        ;
+
+        
+    
+    
+            var marker_db69d5d5cd45f69a257f1e7fba939500 = L.marker(
+                [48.307413, 4.09855],
+                {
+}
+            ).addTo(map_f2cae57b15420a45fddefd35f3ec5690);
+        
+    
+            var icon_91eec201ed8cde91ab34bb2ab0f0fbd1 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "green",
+  "iconColor": "white",
+  "icon": "info-sign",
+  "prefix": "glyphicon",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+            marker_db69d5d5cd45f69a257f1e7fba939500.setIcon(icon_91eec201ed8cde91ab34bb2ab0f0fbd1);
+        
+    
+        var popup_51286102f4470d05d68da9a70cb9c5c1 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_9740514942eb1fdb89f101f45e767ed7 = $(`<div id="html_9740514942eb1fdb89f101f45e767ed7" style="width: 100.0%; height: 100.0%;">Stade de l'Aube</div>`)[0];
+                popup_51286102f4470d05d68da9a70cb9c5c1.setContent(html_9740514942eb1fdb89f101f45e767ed7);
+            
+        
+
+        marker_db69d5d5cd45f69a257f1e7fba939500.bindPopup(popup_51286102f4470d05d68da9a70cb9c5c1)
+        ;
+
+        
+    
+    
+            var marker_ec2395a2e4c4db385f5646b9b82e9aa1 = L.marker(
+                [48.818526, 2.34646],
+                {
+}
+            ).addTo(map_f2cae57b15420a45fddefd35f3ec5690);
+        
+    
+            var icon_25905de85a737d3a31f54e065ccd09ca = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "green",
+  "iconColor": "white",
+  "icon": "info-sign",
+  "prefix": "glyphicon",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+            marker_ec2395a2e4c4db385f5646b9b82e9aa1.setIcon(icon_25905de85a737d3a31f54e065ccd09ca);
+        
+    
+        var popup_0286de9291e1f02f27dc484b02c36393 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_7f8322c510fb8a804ea22472de3390ba = $(`<div id="html_7f8322c510fb8a804ea22472de3390ba" style="width: 100.0%; height: 100.0%;">Stade Charléty</div>`)[0];
+                popup_0286de9291e1f02f27dc484b02c36393.setContent(html_7f8322c510fb8a804ea22472de3390ba);
+            
+        
+
+        marker_ec2395a2e4c4db385f5646b9b82e9aa1.bindPopup(popup_0286de9291e1f02f27dc484b02c36393)
+        ;
+
+        
+    
+    
+            var marker_124e07dff051f525ed0d139fbbbe78f4 = L.marker(
+                [48.905833, 2.340833],
+                {
+}
+            ).addTo(map_f2cae57b15420a45fddefd35f3ec5690);
+        
+    
+            var icon_2e0373bb87ef9467bbe066b130ba6429 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "green",
+  "iconColor": "white",
+  "icon": "info-sign",
+  "prefix": "glyphicon",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+            marker_124e07dff051f525ed0d139fbbbe78f4.setIcon(icon_2e0373bb87ef9467bbe066b130ba6429);
+        
+    
+        var popup_a37d7c0a7384f721418d1cb72aca52ce = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_ba170dd1ad21a552118acce07bab2ede = $(`<div id="html_ba170dd1ad21a552118acce07bab2ede" style="width: 100.0%; height: 100.0%;">Stade Bauer</div>`)[0];
+                popup_a37d7c0a7384f721418d1cb72aca52ce.setContent(html_ba170dd1ad21a552118acce07bab2ede);
+            
+        
+
+        marker_124e07dff051f525ed0d139fbbbe78f4.bindPopup(popup_a37d7c0a7384f721418d1cb72aca52ce)
+        ;
+
+        
+    
+    
+            map_f2cae57b15420a45fddefd35f3ec5690.fitBounds(
+                [[41.93157, -4.46159], [51.0356, 9.442758]],
+                {}
+            );
+        
+</script>
+</html>
