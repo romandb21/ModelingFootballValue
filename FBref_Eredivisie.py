@@ -8,7 +8,7 @@ import json
 import io
 
 # Scraping configuration
-CONFIG_FILE = 'scraping_progress.json'
+CONFIG_FILE = 'scraping_progress_ered.json'
 
 def save_progress(data):
     """Save scraping progress to a JSON file, including the season."""
@@ -119,7 +119,6 @@ def scrape_stats_player(player_url, existing_players):
             print(f"Error reading HTML table for {player_name}: {e}")
             return pd.DataFrame()
 
-
         # Créer une copie explicite pour éviter le SettingWithCopyWarning
         stats_table = stats_table.copy()
 
@@ -130,10 +129,27 @@ def scrape_stats_player(player_url, existing_players):
         new_order = [('Unnamed: -1_level_0', 'Player')] + list(stats_table.columns[:-1])
         stats_table = stats_table[new_order]
 
+        # **Ajout du filtre avec une liste de saisons**
+        # Définir la liste des saisons autorisées
+        allowed_seasons = [
+            '2010-2011', '2011-2012', '2012-2013', '2013-2014', 
+            '2014-2015', '2015-2016', '2016-2017', '2017-2018', 
+            '2018-2019', '2019-2020', '2020-2021', '2021-2022', 
+            '2022-2023', '2023-2024', '2024-2025'
+        ]
+
+        # Identifier la colonne de saison (par exemple : ('Unnamed: 0_level_0', 'Season'))
+        season_column = ('Unnamed: 0_level_0', 'Season')
+        if season_column in stats_table.columns:
+            stats_table = stats_table[
+                stats_table[season_column].isin(allowed_seasons)
+            ]
+
         return stats_table
     except Exception as e:
         print(f"Error scraping stats for {player_name}: {e}")
         return pd.DataFrame()
+
 
 
 
@@ -194,22 +210,16 @@ def main(season, all_players_stats, existing_players):
     return all_players_stats
 
 
-def load_existing_data():
-    """Load existing players_stats.csv"""
-    file_path = "/home/onyxia/work/ModelingFootballValue/players_stats_eredivisie.csv"
-    try:
-        df = pd.read_csv(file_path, header=[0, 1], low_memory=False)
-        print("Loaded with multi-level headers successfully.")
-    except Exception as e:
-        print(f"Error loading file: {e}")
-        df = pd.DataFrame()
 
 
 def main_with_existing_data(season):
     # Load existing data
-    file_path = "/home/onyxia/work/ModelingFootballValue/players_stats_eredivisie.csv"
+    file_path1 = "/home/onyxia/work/ModelingFootballValue/players_stats_eredivisie.csv"
+    file_path2 = "/home/onyxia/work/ModelingFootballValue/players_stats_Big5.csv"
     try:
-        existing_data = pd.read_csv(file_path, header=[0, 1], low_memory=False)
+        existing_data1 = pd.read_csv(file_path1, header=[0, 1], low_memory=False)
+        existing_data2 = pd.read_csv(file_path2, header=[0, 1], low_memory=False)
+        existing_data = pd.concat([existing_data1, existing_data2], ignore_index=True)
         existing_players = set(existing_data[('Unnamed: -1_level_0', 'Player')].unique())
     except FileNotFoundError:
         existing_data = pd.DataFrame()

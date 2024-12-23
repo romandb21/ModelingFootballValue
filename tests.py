@@ -265,31 +265,44 @@ seasons_list=['2020-2021', '2021-2022', '2022-2023', '2023-2024', '2024-2025']
 
 main_with_existing_data(seasons_list[0])
 
-def count_player_occurrences(player_name, file_path):
+def find_and_print_player_occurrences(player_name, file_path="/home/onyxia/work/ModelingFootballValue/players_stats_Big5.csv"):
     """
-    Compte le nombre de fois où un joueur spécifique apparaît dans un fichier CSV.
+    Trouve et affiche les lignes où un joueur apparaît dans le fichier CSV.
     
-    Parameters:
-        player_name (str): Nom du joueur à rechercher.
-        file_path (str): Chemin vers le fichier CSV.
-        
-    Returns:
-        int: Nombre de fois où le joueur apparaît.
+    :param player_name: Nom du joueur à rechercher.
+    :param file_path: Chemin du fichier CSV.
+    :return: Nombre d'occurrences du joueur.
     """
     try:
-        # Charger le fichier CSV avec un en-tête multi-index
+        # Charger le fichier CSV avec les en-têtes multi-niveaux
         df = pd.read_csv(file_path, header=[0, 1], low_memory=False)
         
-        # Vérifier si la colonne 'Player' existe
+        # Vérifier si la colonne "Player" existe
         if ('Unnamed: -1_level_0', 'Player') not in df.columns:
-            print("La colonne 'Player' est introuvable dans le fichier CSV.")
-            return 0
+            raise KeyError("La colonne 'Player' n'existe pas dans le fichier.")
         
-        # Compter les occurrences du joueur
-        occurrences = df[('Unnamed: -1_level_0', 'Player')].value_counts().get(player_name, 0)
+        # Filtrer les lignes correspondant au joueur
+        player_rows = df[df[('Unnamed: -1_level_0', 'Player')] == player_name]
         
-        print(f"{player_name} apparaît {occurrences} fois dans le fichier.")
+        # Afficher le nombre d'occurrences
+        occurrences = player_rows.shape[0]
+        print(f"Le joueur '{player_name}' apparaît {occurrences} fois dans le fichier.")
+        
+        # Afficher les lignes où il apparaît
+        if occurrences > 0:
+            print(player_rows)
+        else:
+            print(f"Aucune ligne trouvée pour le joueur '{player_name}'.")
+        
+        return occurrences, player_rows
+    except FileNotFoundError:
+        print(f"Le fichier '{file_path}' est introuvable.")
+        return 0, pd.DataFrame()
+    except Exception as e:
+        print(f"Une erreur s'est produite : {e}")
+        return 0, pd.DataFrame()
 
-count_player_occurrences('Steve Mandanda', "/home/onyxia/work/ModelingFootballValue/players_stats_Big5.csv")
+
+#count_player_occurrences('Steve Mandanda', "/home/onyxia/work/ModelingFootballValue/players_stats_Big5.csv")
 
 
