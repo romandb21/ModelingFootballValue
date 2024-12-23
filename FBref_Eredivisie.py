@@ -156,57 +156,80 @@ def scrape_stats_player(player_url, existing_players):
 
 
 def main(season, all_players_stats, existing_players):
-    
-    bundes_url = f"https://fbref.com/en/comps/23/{season}/{season}-Eredivisie-Stats"
+    """
+    Main function to scrape stats for a specific season, resuming from saved progress.
+    """
+    ered_url = f"https://fbref.com/en/comps/23/{season}/{season}-Eredivisie-Stats"
     progress = load_progress()
-    
+
+    # Mettre à jour la saison si nécessaire
     if progress.get('season') != season:
         progress = {'season': season, 'last_club': None, 'last_player': None}
         save_progress(progress)
-    
+
     file_path = "/home/onyxia/work/ModelingFootballValue/players_stats_eredivisie.csv"
+
+    # Charger les données existantes
     try:
         existing_data = pd.read_csv(file_path, header=[0, 1], low_memory=False)
         existing_players = set(existing_data[('Unnamed: -1_level_0', 'Player')].unique())
     except FileNotFoundError:
         existing_data = pd.DataFrame()
         existing_players = set()
-    
-    club_urls = get_club_urls(bundes_url, season)
+
+    # Récupérer les URL des clubs
+    club_urls = get_club_urls(ered_url, season)
     all_players_stats = pd.DataFrame()
-    
-    start_index = 0
-    if progress['last_club']:
+
+    # Identifier le point de reprise pour les clubs
+    start_club_index = 0
+    if progress['season'] == '2020-2021' and progress['last_club']:
+        normalized_last_club = progress['last_club'].split("/squads/")[1].split("/")[0]  # Extraire l'identifiant unique du club
         try:
-            start_index = club_urls.index(progress['last_club']) + 1
-        except ValueError:
-            start_index = 0
-    
-    for club_url in club_urls[start_index:]:
+        # Trouver le club avec le même identifiant dans la liste
+            for i, club_url in enumerate(club_urls):
+                if f"/squads/{normalized_last_club}/" in club_url:
+                    start_club_index = i
+                    print(f"Reprise à partir du club index {start_club_index}: {club_url}")
+                    break  # Arrêter la boucle une fois qu'une correspondance est trouvée
+                else:
+                    print("Aucun club correspondant trouvé. Reprise depuis le début.")
+                    start_club_index = 0
+        except Exception as e:
+            print(f"Erreur lors de la recherche du club: {e}")
+            start_club_index = 0
+
+    for club_url in club_urls[start_club_index:]:
         try:
+            print(f"Scraping club: {club_url}")
             player_urls = scrape_club_players(club_url)
-            
+
+            # Identifier le point de reprise pour les joueurs
             start_player_index = 0
-            if progress['last_club'] == club_url and progress['last_player']:
+            if progress['season'] == season and progress['last_club'] == club_url and progress['last_player']:
                 try:
-                    start_player_index = player_urls.index(progress['last_player']) + 1
+                    start_player_index = player_urls.index(progress['last_player'])
+                    print(f"Reprise à partir du joueur index {start_player_index}: {progress['last_player']}")
                 except ValueError:
+                    print("Le joueur de progression n'a pas été trouvé. Reprise depuis le début.")
                     start_player_index = 0
-            
+
             for player_url in player_urls[start_player_index:]:
+                print(f"Scraping player: {player_url}")
                 player_stats = scrape_stats_player(player_url, existing_players)
                 if not player_stats.empty:
                     all_players_stats = pd.concat([all_players_stats, player_stats], ignore_index=True)
-                
+
+                # Sauvegarder la progression après chaque joueur
                 save_progress({'season': season, 'last_club': club_url, 'last_player': player_url})
-        
+
         except Exception as e:
-            print(f"Erreur pour le club {club_url}: {e}")
-    
+            print(f"Error for club {club_url}: {e}")
+
     print("Scraping terminé.")
     if os.path.exists(CONFIG_FILE):
         os.remove(CONFIG_FILE)
-    
+
     return all_players_stats
 
 
