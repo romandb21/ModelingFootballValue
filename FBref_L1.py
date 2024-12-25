@@ -261,12 +261,12 @@ def main_with_existing_data(season):
     all_players_stats.to_csv(file_path, index=False)
 
 
-
+'''
 #seasons_list=['2015-2016', '2016-2017', '2017-2018', '2018-2019', '2019-2020', '2020-2021', '2021-2022', '2022-2023', '2023-2024', '2024-2025']
 seasons_list=['2020-2021', '2021-2022', '2022-2023', '2023-2024', '2024-2025']
 for season in seasons_list:
     main_with_existing_data(season)
-
+'''
 
 
 
@@ -357,21 +357,38 @@ def find_and_print_player_occurrences(player_name, file_path="/home/onyxia/work/
         print(f"Une erreur s'est produite : {e}")
         return 0, pd.DataFrame()
 
+
+#find_and_print_player_occurrences('Bradley Barcola', "/home/onyxia/work/ModelingFootballValue/players_stats_L1.csv")
+
+
+
+
+file_path = "/home/onyxia/work/ModelingFootballValue/players_stats_eredivisie.csv"
+
+ered=pd.read_csv(file_path, header=[0, 1], low_memory=False)
+ered=rename_columns(ered)
+ered=flatten_columns(ered)
+
+big5= pd.read_csv("/home/onyxia/work/ModelingFootballValue/players_stats_Big5.csv")
+
+# Identifier les colonnes communes
+common_columns = ered.columns.intersection(big5.columns)
+
+# Sélectionner ces colonnes
+ered_common = ered[common_columns]
+big5_common = big5[common_columns]
+ered_common = ered_common.loc[:, ~ered_common.columns.duplicated()]
+
+
+
+# Concaténation
+top6 = pd.concat([ered_common, big5_common], ignore_index=True)
+
+top6 = top6.drop_duplicates(subset= ['Player', 'Season'])
+top6 = top6.sort_values(by = 'Player')
+top6.to_csv("/home/onyxia/work/ModelingFootballValue/players_stats_top7.csv", index=False)
+
 '''
-find_and_print_player_occurrences('Bradley Barcola', "/home/onyxia/work/ModelingFootballValue/players_stats_L1.csv")
-
-
-# Liste des chemins des fichiers CSV
-csv_files = [
-    "/home/onyxia/work/ModelingFootballValue/players_stats_bundes.csv",
-    "/home/onyxia/work/ModelingFootballValue/players_stats_L1.csv",
-    "//home/onyxia/work/ModelingFootballValue/players_stats_liga.csv",
-    "/home/onyxia/work/ModelingFootballValue/players_stats_PL.csv",
-    "/home/onyxia/work/ModelingFootballValue/players_stats_serieA.csv",
-    "/home/onyxia/work/ModelingFootballValue/players_stats_Big5.csv"
-]
-
-
 # Charger tous les fichiers CSV et les concaténer
 all_data = pd.concat([pd.read_csv(file, header=[0, 1], low_memory=False) for file in csv_files], ignore_index=True)
 
@@ -384,12 +401,12 @@ all_data = all_data.sort_values(by = ('Unnamed: -1_level_0', 'Player'))
 # Sauvegarder dans un nouveau fichier CSV si besoin
 all_data.to_csv("/home/onyxia/work/ModelingFootballValue/players_stats_Big5.csv", index=False)
 
-print("Les fichiers ont été concaténés et les doublons supprimés.")'''
+print("Les fichiers ont été concaténés et les doublons supprimés.")
 
 big5 = pd.read_csv("/home/onyxia/work/ModelingFootballValue/players_stats_Big5.csv", header=[0, 1], low_memory=False)
 
 
-'''
+
 # Exemple d'utilisation
 big5 = flatten_columns(big5)
 
