@@ -360,16 +360,15 @@ def find_and_print_player_occurrences(player_name, file_path="/home/onyxia/work/
 
 #find_and_print_player_occurrences('Bradley Barcola', "/home/onyxia/work/ModelingFootballValue/players_stats_L1.csv")
 
+'''
 
 
-
-file_path = "/home/onyxia/work/ModelingFootballValue/players_stats_eredivisie.csv"
+file_path = "/home/onyxia/work/ModelingFootballValue/players_stats_serieA.csv"
 
 primeira=pd.read_csv(file_path, header=[0, 1], low_memory=False)
 primeira=rename_columns(primeira)
 primeira=flatten_columns(primeira)
 
-print(primeira.columns)
 
 seasons_to_keep = [
             '2010-2011', '2011-2012', '2012-2013', '2013-2014', 
@@ -379,8 +378,9 @@ seasons_to_keep = [
         ]
 
 
-big5= pd.read_csv("/home/onyxia/work/ModelingFootballValue/players_stats_top5.csv")
-
+big5= pd.read_csv("/home/onyxia/work/ModelingFootballValue/players_stats_top7.csv", low_memory=False)
+'''
+'''
 def clean_column_name(col):
     return col.split('.')[0] if '.' in col else col
 
@@ -398,11 +398,11 @@ big5 = big5.drop(index=0).reset_index(drop=True)
 
 big5=rename_columns(big5)
 big5=flatten_columns(big5)
-print(big5.head())
+
 
 big5 = big5[big5['Season'].isin(seasons_to_keep)]
-
-
+'''
+'''
 
 # Identifier les colonnes communes
 common_columns = primeira.columns.intersection(big5.columns)
@@ -419,7 +419,7 @@ top7 = pd.concat([primeira_common, big5_common], ignore_index=True)
 top7 = top7.drop_duplicates(subset= ['Player', 'Season'])
 top7 = top7.sort_values(by = 'Player')
 top7.to_csv("/home/onyxia/work/ModelingFootballValue/players_stats_top7.csv", index=False)
-
+'''
 '''
 # Charger tous les fichiers CSV et les concaténer
 all_data = pd.concat([pd.read_csv(file, header=[0, 1], low_memory=False) for file in csv_files], ignore_index=True)
@@ -446,7 +446,18 @@ big5 = flatten_columns(big5)
 
 big5.to_csv("/home/onyxia/work/ModelingFootballValue/players_stats_Big5.csv", index=False)
 
-
-
 '''
 
+
+df= pd.read_csv("/home/onyxia/work/ModelingFootballValue/players_stats_top7.csv")
+
+
+
+
+#df = df[df[('Unnamed: 0_level_0')].isin(seasons_to_keep)]
+players_per_season = df.groupby(('Season'))[('Player')].nunique()
+players = df[('Player')].nunique()
+
+# Affichage du résultat
+print(players_per_season)
+print(players)
