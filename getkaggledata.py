@@ -52,10 +52,38 @@ def load_csv_data(file_name, output_dir):
     - DataFrame: The loaded data if the file exists.
     - None: If the file does not exist, returns None and prints a warning message.
     """
+def download_kaggle_dataset(output_dir):
+    """
+    Downloads a specific dataset from Kaggle using the Kaggle API.
+    The dataset is extracted into the specified output directory.
+
+    Inputs:
+    - output_dir (str): Directory where the dataset will be extracted.
+
+    Outputs:
+    - None
+    """
+    dataset_identifier = "davidcariboo/player-scores"
+    os.system(f"kaggle datasets download -d {dataset_identifier} -p {output_dir} --unzip")
+    print("Dataset download complete.")
+
+def load_csv_data(file_name, output_dir):
+    """
+    Loads a CSV file into a Pandas DataFrame.
+
+    Inputs:
+    - file_name (str): The name of the CSV file to be loaded.
+    - output_dir (str): The directory where the file is located.
+
+    Outputs:
+    - DataFrame: The loaded data if the file exists.
+    - None: If the file does not exist, returns None and prints a warning message.
+    """
     file_path = os.path.join(output_dir, file_name)
     if os.path.exists(file_path):
         return pd.read_csv(file_path)
     else:
+        print(f"File not found: {file_name}")
         print(f"File not found: {file_name}")
         return None
 
