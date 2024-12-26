@@ -143,9 +143,5 @@ def draw_team(team_id):
             path_effects.Stroke(linewidth=1.5, foreground="black"),  
             path_effects.Normal()]) # Name of the positions
  
-       
-
     plt.show()
 
-
-draw_team(86)
