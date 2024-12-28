@@ -11,34 +11,6 @@ from xgboost import XGBRegressor
 import logging
 from typing import Dict, List, Union
 
-# Configure logging
-logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
-
-# Function to compute Pearson and Spearman correlations between two variables
-def compute_correlations(x: Union[pd.Series, np.ndarray], y: Union[pd.Series, np.ndarray]) -> Dict[str, float]:
-    """
-    Computes Pearson and Spearman correlation coefficients between two variables.
-
-    Inputs:
-    - x (array-like): First variable.
-    - y (array-like): Second variable.
-
-    Outputs:
-    - dict: Correlation coefficients (Pearson and Spearman) and associated p-values.
-    """
-    try:
-        pearson_corr, pearson_p = pearsonr(x, y)
-        spearman_corr, spearman_p = spearmanr(x, y)
-        return {
-            "Pearson_correlation": float(pearson_corr),
-            "Pearson_p_value": float(pearson_p),
-            "Spearman_correlation": float(spearman_corr),
-            "Spearman_p_value": float(spearman_p)
-        }
-    except Exception as e:
-        logging.error(f"Error computing correlations: {e}")
-        return {}
-
 # Function to perform a linear regression
 def linear_regression(X: Union[pd.DataFrame, np.ndarray], y: Union[pd.Series, np.ndarray]) -> Dict[str, Union[List[float], float]]:
     """
