@@ -1,82 +1,99 @@
-import os
 import pandas as pd
 import numpy as np
-from math import sqrt
 import matplotlib.pyplot as plt
-from scipy.stats import pearsonr, spearmanr
 from sklearn.linear_model import LinearRegression, Lasso
 from sklearn.metrics import mean_squared_error
 from sklearn.ensemble import RandomForestRegressor
 from xgboost import XGBRegressor
 import logging
 from typing import Dict, List, Union
+from sklearn.model_selection import train_test_split
 
-# Function to perform a linear regression
-def linear_regression(X: Union[pd.DataFrame, np.ndarray], y: Union[pd.Series, np.ndarray]) -> Dict[str, Union[List[float], float]]:
+def linear_regression(X: np.ndarray, y: np.ndarray, test_size: float = 0.2, random_state: int = 42) -> Dict[str, Union[np.ndarray, float, np.ndarray]]:
     """
-    Performs a linear regression between a target variable and explanatory variables.
+    Performs linear regression, returns the predictions, mean squared error, R^2, and coefficients.
 
     Inputs:
-    - X (DataFrame or array-like): Explanatory variables.
+    - X (array-like): Explanatory variables.
     - y (array-like): Target variable.
+    - test_size (float): Proportion of the dataset to include in the test split.
+    - random_state (int): Random seed for reproducibility.
 
     Outputs:
-    - dict: Regression coefficients and performance metrics (MSE and RMSE).
+    - dict: Dictionary containing predictions, mean squared error, R^2, and coefficients.
     """
     try:
+        X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=test_size, random_state=random_state)
         model = LinearRegression()
-        model.fit(X, y)
-        y_pred = model.predict(X)
-        mse = mean_squared_error(y, y_pred)
-        rmse = sqrt(mse)
+        model.fit(X_train, y_train)
+        y_pred_train = model.predict(X_train)
+        y_pred_test = model.predict(X_test)
+        mse_train = mean_squared_error(y_train, y_pred_train)
+        mse_test = mean_squared_error(y_test, y_pred_test)
+        r2_train = model.score(X_train, y_train)
+        r2_test = model.score(X_test, y_test)
+        coefficients = model.coef_
         return {
-            "Coefficients": model.coef_.tolist(),
-            "Intercept": float(model.intercept_),
-            "MSE": float(mse),
-            "RMSE": float(rmse)
+            "model": model,
+            "y_pred_train": y_pred_train,
+            "y_pred_test": y_pred_test,
+            "mse_train": mse_train,
+            "mse_test": mse_test,
+            "r2_train": r2_train,
+            "r2_test": r2_test,
+            "coefficients": coefficients
         }
     except Exception as e:
         logging.error(f"Error performing linear regression: {e}")
         return {}
 
-# Function to perform a Lasso regression
-def lasso_regression(X: Union[pd.DataFrame, np.ndarray], y: Union[pd.Series, np.ndarray], alpha: float = 1.0) -> Dict[str, Union[List[float], float]]:
+def lasso_regression(X: np.ndarray, y: np.ndarray, alpha: float = 1.0, test_size: float = 0.2, random_state: int = 42) -> Dict[str, Union[np.ndarray, float, np.ndarray]]:
     """
-    Performs a Lasso regression between a target variable and explanatory variables.
+    Performs Lasso regression, returns the predictions, mean squared error, R^2, and coefficients.
 
     Inputs:
-    - X (DataFrame or array-like): Explanatory variables.
+    - X (array-like): Explanatory variables.
     - y (array-like): Target variable.
-    - alpha (float): Regularization parameter for Lasso.
+    - alpha (float): Regularization strength.
+    - test_size (float): Proportion of the dataset to include in the test split.
+    - random_state (int): Random seed for reproducibility.
 
     Outputs:
-    - dict: Regression coefficients and performance metrics (MSE and RMSE).
+    - dict: Dictionary containing predictions, mean squared error, R^2, and coefficients.
     """
     try:
+        X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=test_size, random_state=random_state)
         model = Lasso(alpha=alpha)
-        model.fit(X, y)
-        y_pred = model.predict(X)
-        mse = mean_squared_error(y, y_pred)
-        rmse = sqrt(mse)
+        model.fit(X_train, y_train)
+        y_pred_train = model.predict(X_train)
+        y_pred_test = model.predict(X_test)
+        mse_train = mean_squared_error(y_train, y_pred_train)
+        mse_test = mean_squared_error(y_test, y_pred_test)
+        r2_train = model.score(X_train, y_train)
+        r2_test = model.score(X_test, y_test)
+        coefficients = model.coef_
         return {
-            "Coefficients": model.coef_.tolist(),
-            "Intercept": float(model.intercept_),
-            "MSE": float(mse),
-            "RMSE": float(rmse)
+            "model": model,
+            "y_pred_train": y_pred_train,
+            "y_pred_test": y_pred_test,
+            "mse_train": mse_train,
+            "mse_test": mse_test,
+            "r2_train": r2_train,
+            "r2_test": r2_test,
+            "coefficients": coefficients
         }
     except Exception as e:
         logging.error(f"Error performing Lasso regression: {e}")
         return {}
 
-# Function to plot a regression and the scatter plot
-def plot_regression(X: np.ndarray, y: np.ndarray, model: Union[LinearRegression, Lasso], feature_name: str, target_name: str) -> None:
+def plot_regression(X: np.ndarray, y: np.ndarray, regression_result: Dict[str, Union[np.ndarray, float]], feature_name: str, target_name: str) -> None:
     """
     Plots a regression and the scatter plot of observed data.
 
     Inputs:
     - X (array-like): Explanatory variables used for the regression (one variable for the plot).
     - y (array-like): Target variable.
-    - model: Trained regression model.
+    - regression_result: Dictionary containing the trained model and predictions.
     - feature_name (str): Name of the explanatory variable for the x-axis.
     - target_name (str): Name of the target variable for the y-axis.
 
@@ -88,6 +105,7 @@ def plot_regression(X: np.ndarray, y: np.ndarray, model: Union[LinearRegression,
 
     try:
         X = X.flatten()
+        model = regression_result["model"]
         y_pred = model.predict(X.reshape(-1, 1))
 
         plt.figure(figsize=(8, 6))
@@ -102,36 +120,47 @@ def plot_regression(X: np.ndarray, y: np.ndarray, model: Union[LinearRegression,
     except Exception as e:
         logging.error(f"Error plotting regression: {e}")
 
-# Function to perform a random forest regression
-def random_forest_regression(X: Union[pd.DataFrame, np.ndarray], y: Union[pd.Series, np.ndarray], n_estimators: int = 100, max_depth: int = None) -> Dict[str, Union[List[float], float]]:
+def random_forest_regression(X: np.ndarray, y: np.ndarray, n_estimators: int = 100, test_size: float = 0.2, random_state: int = 42) -> Dict[str, Union[np.ndarray, float, List[str]]]:
     """
-    Performs a random forest regression between a target variable and explanatory variables.
+    Performs Random Forest regression, returns the predictions, mean squared error, R^2, feature importances, and feature names.
 
     Inputs:
-    - X (DataFrame or array-like): Explanatory variables.
+    - X (array-like): Explanatory variables.
     - y (array-like): Target variable.
     - n_estimators (int): Number of trees in the forest.
-    - max_depth (int): Maximum depth of the trees.
+    - test_size (float): Proportion of the dataset to include in the test split.
+    - random_state (int): Random seed for reproducibility.
 
     Outputs:
-    - dict: Regression coefficients and performance metrics (MSE and RMSE).
+    - dict: Dictionary containing predictions, mean squared error, R^2, feature importances, and feature names.
     """
     try:
-        model = RandomForestRegressor(n_estimators=n_estimators, max_depth=max_depth)
-        model.fit(X, y)
-        y_pred = model.predict(X)
-        mse = mean_squared_error(y, y_pred)
-        rmse = sqrt(mse)
+        X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=test_size, random_state=random_state)
+        model = RandomForestRegressor(n_estimators=n_estimators, random_state=random_state)
+        model.fit(X_train, y_train)
+        y_pred_train = model.predict(X_train)
+        y_pred_test = model.predict(X_test)
+        mse_train = mean_squared_error(y_train, y_pred_train)
+        mse_test = mean_squared_error(y_test, y_pred_test)
+        r2_train = model.score(X_train, y_train)
+        r2_test = model.score(X_test, y_test)
+        feature_importances = model.feature_importances_
+        feature_names = X.columns.tolist() if isinstance(X, pd.DataFrame) else [f"Feature {i}" for i in range(X.shape[1])]
         return {
-            "Feature_importances": model.feature_importances_.tolist(),
-            "MSE": float(mse),
-            "RMSE": float(rmse)
+            "model": model,
+            "y_pred_train": y_pred_train,
+            "y_pred_test": y_pred_test,
+            "mse_train": mse_train,
+            "mse_test": mse_test,
+            "r2_train": r2_train,
+            "r2_test": r2_test,
+            "feature_importances": feature_importances,
+            "feature_names": feature_names
         }
     except Exception as e:
-        logging.error(f"Error performing random forest regression: {e}")
+        logging.error(f"Error performing Random Forest regression: {e}")
         return {}
 
-# Function to plot the feature importances of a random forest model
 def plot_rf_feature_importances(importances: Union[np.ndarray, List[float]], feature_names: List[str]) -> None:
     """
     Plots the feature importances of a random forest model.
@@ -158,10 +187,9 @@ def plot_rf_feature_importances(importances: Union[np.ndarray, List[float]], fea
     except Exception as e:
         logging.error(f"Error plotting random forest feature importances: {e}")
 
-# Function to perform an XGBoost regression
-def xgboost_regression(X: Union[pd.DataFrame, np.ndarray], y: Union[pd.Series, np.ndarray], n_estimators: int = 100, max_depth: int = 3, learning_rate: float = 0.1) -> Dict[str, Union[List[float], float]]:
+def xgboost_regression(X: Union[pd.DataFrame, np.ndarray], y: Union[pd.Series, np.ndarray], n_estimators: int = 100, max_depth: int = 3, learning_rate: float = 0.1, test_size: float = 0.2, random_state: int = 42) -> Dict[str, Union[List[float], float, List[str]]]:
     """
-    Performs an XGBoost regression between a target variable and explanatory variables.
+    Performs an XGBoost regression, returns the predictions, mean squared error, R^2, and feature importances.
 
     Inputs:
     - X (DataFrame or array-like): Explanatory variables.
@@ -169,26 +197,39 @@ def xgboost_regression(X: Union[pd.DataFrame, np.ndarray], y: Union[pd.Series, n
     - n_estimators (int): Number of boosting rounds.
     - max_depth (int): Maximum depth of the trees.
     - learning_rate (float): Step size shrinkage used in update to prevent overfitting.
+    - test_size (float): Proportion of the dataset to include in the test split.
+    - random_state (int): Random seed for reproducibility.
 
     Outputs:
-    - dict: Regression coefficients and performance metrics (MSE and RMSE).
+    - dict: Dictionary containing predictions, mean squared error, R^2, and feature importances.
     """
     try:
-        model = XGBRegressor(n_estimators=n_estimators, max_depth=max_depth, learning_rate=learning_rate)
-        model.fit(X, y)
-        y_pred = model.predict(X)
-        mse = mean_squared_error(y, y_pred)
-        rmse = sqrt(mse)
+        X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=test_size, random_state=random_state)
+        model = XGBRegressor(n_estimators=n_estimators, max_depth=max_depth, learning_rate=learning_rate, random_state=random_state)
+        model.fit(X_train, y_train)
+        y_pred_train = model.predict(X_train)
+        y_pred_test = model.predict(X_test)
+        mse_train = mean_squared_error(y_train, y_pred_train)
+        mse_test = mean_squared_error(y_test, y_pred_test)
+        r2_train = model.score(X_train, y_train)
+        r2_test = model.score(X_test, y_test)
+        feature_importances = model.feature_importances_
+        feature_names = X.columns.tolist() if isinstance(X, pd.DataFrame) else [f"Feature {i}" for i in range(X.shape[1])]
         return {
-            "Feature_importances": model.feature_importances_.tolist(),
-            "MSE": float(mse),
-            "RMSE": float(rmse)
+            "model": model,
+            "y_pred_train": y_pred_train,
+            "y_pred_test": y_pred_test,
+            "mse_train": mse_train,
+            "mse_test": mse_test,
+            "r2_train": r2_train,
+            "r2_test": r2_test,
+            "feature_importances": feature_importances,
+            "feature_names": feature_names
         }
     except Exception as e:
         logging.error(f"Error performing XGBoost regression: {e}")
         return {}
 
-# Function to plot the feature importances of an XGBoost model
 def plot_xgb_feature_importances(importances: Union[np.ndarray, List[float]], feature_names: List[str]) -> None:
     """
     Plots the feature importances of an XGBoost model.
