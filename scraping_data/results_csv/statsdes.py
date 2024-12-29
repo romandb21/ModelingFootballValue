@@ -63,10 +63,9 @@ def mean_fee(df):
     sns.barplot(x=transfer_fee_season.index, y=transfer_fee_season.values, palette='icefire')
     plt.title('Montant moyen des transferts par saison', fontsize=14)
     plt.xlabel('Saison', fontsize=12)
-    plt.ylabel('Montant moyen des transferts', fontsize=12)
+    plt.ylabel('Montant moyen des transferts en millions (€)', fontsize=12)
     plt.xticks(rotation=45)
     plt.legend()
     plt.tight_layout()
     plt.show()
     
-
