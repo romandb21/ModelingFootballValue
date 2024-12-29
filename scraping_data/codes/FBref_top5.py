@@ -7,39 +7,23 @@ import random
 import json
 import io
 
-# Scraping configuration
-CONFIG_FILE = 'scraping_progress.json'
 
-def save_progress(data):
-    """Save scraping progress to a JSON file, including the season."""
-    with open(CONFIG_FILE, 'w') as f:
-        json.dump(data, f)
-
-def load_progress():
-    """Load previous scraping progress"""
-    try:
-        with open(CONFIG_FILE, 'r') as f:
-            return json.load(f)
-    except FileNotFoundError:
-        return {'season': None, 'last_club': None, 'last_player': None}
 
 def rename_columns_and_flatten(df):
     new_columns = []
     for col in df.columns:
-        # Si le niveau supérieur commence par "Unnamed", on garde uniquement le niveau inférieur
+        # If the 1st index starts with "Unnamed", keep only the 2nd index's name
         if str(col[0]).startswith("Unnamed"):
             new_columns.append(col[1])
         else:
             # Sinon, on combine le niveau supérieur et le niveau inférieur avec ":"
             new_columns.append(f"{col[0]} : {col[1]}")
     
-    # Appliquer les nouveaux noms de colonnes
+    # apply new columns names
     df.columns = new_columns
-    # Aplatir les colonnes si elles sont multi-indexées
-    if isinstance(df.columns, pd.MultiIndex):
-        df.columns = [col[0] for col in df.columns]
     
     return df
+
 
 
 def get_club_urls(league_url, season):
@@ -99,8 +83,11 @@ def scrape_club_players(club_url):
     
     return player_links
 
+
 def scrape_stats_player(player_url, existing_players):
+
     """Get statistics for a specific player if not already in the dataset."""
+
     player_name = player_url.split("/")[-1].replace("-Stats---All-Competitions", "").replace("-", " ")
 
     if player_name in existing_players:
@@ -124,7 +111,7 @@ def scrape_stats_player(player_url, existing_players):
             print(f"No stats table found for URL: {player_url}")
             return pd.DataFrame()
 
-        # Convertir le tableau HTML en DataFrame
+        # Convert HTML table into a DataFrame
         try:
             stats_table_html = str(stats_table)  # Convertir en chaîne
             stats_table = pd.read_html(io.StringIO(stats_table_html), header=[0, 1])[0]
@@ -132,20 +119,20 @@ def scrape_stats_player(player_url, existing_players):
             print(f"Error reading HTML table for {player_name}: {e}")
             return pd.DataFrame()
 
-        # Créer une copie explicite pour éviter le SettingWithCopyWarning
+        # avoid SettingWithCopyWarning
         stats_table = stats_table.copy()
 
-        # Ajouter le nom du joueur
+        # add column 'player'
         stats_table.loc[:, ('Unnamed: -1_level_0', 'Player')] = player_name
 
         # Reorder columns for consistency
         new_order = [('Unnamed: -1_level_0', 'Player')] + list(stats_table.columns[:-1])
         stats_table = stats_table[new_order]
 
-        # Renommer les colonnes et les aplatir
+        # rename columns 
         stats_table = rename_columns_and_flatten(stats_table)
 
-        # Définir la liste des saisons autorisées
+        # keep only allowed seasons
         allowed_seasons = ['2010-2011', '2011-2012', '2012-2013', '2013-2014','2014-2015', '2015-2016', '2016-2017', '2017-2018', '2018-2019', '2019-2020', '2020-2021', '2021-2022', 
             '2022-2023', '2023-2024', '2024-2025']
 
@@ -158,109 +145,132 @@ def scrape_stats_player(player_url, existing_players):
         print(f"Error scraping stats for {player_name}: {e}")
         return pd.DataFrame()
 
+
+
+CONFIG_FILE = 'scraping_progress_ered.json'
+
+def save_progress(data):
+    '''Save scraping progress to a JSON file, including the season.'''
+    with open(CONFIG_FILE, 'w') as f:
+        json.dump(data, f)
+
+        
+
+def load_progress():
+    '''Load previous scraping progress.'''
+    try:
+        with open(CONFIG_FILE, 'r') as f:
+            return json.load(f)
+    except FileNotFoundError:
+        return {'season': None, 'last_club': None, 'last_player': None}
+
+
+
+
+def get_resumption_points(progress, season, club_urls, club_url=None, player_urls=None):
+    '''
+    Determine resumption points for season, club, and player based on progress.
+    Returns a tuple: start_club_index, start_player_index
+    '''
+    # Find starting club index
+    start_club_index = 0
+    if progress['season'] == season and progress['last_club']:
+        normalized_last_club = progress['last_club'].split('/squads/')[1].split('/')[0]
+        for i, url in enumerate(club_urls):
+            if f'/squads/{normalized_last_club}/' in url:
+                start_club_index = i
+                break
+
+    # Find starting player index if applicable
+    start_player_index = 0
+    if player_urls and progress['season'] == season and progress['last_club'] == club_url and progress['last_player']:
+        try:
+            start_player_index = player_urls.index(progress['last_player'])
+        except ValueError:
+            start_player_index = 0
+
+    return start_club_index, start_player_index
+
+
+
+
 def main(season, all_players_stats, existing_players):
-    """
+    '''
     Main function to scrape stats for a specific season, resuming from saved progress.
-    """
-    top5_url = f"https://fbref.com/en/comps/Big5/{season}/{season}-Big-5-European-Leagues-Stats"
+    '''
+    top5_url = f'https://fbref.com/en/comps/Big5/{season}/{season}-Big-5-European-Leagues-Stats'
     progress = load_progress()
 
-    # Mettre à jour la saison si nécessaire
+    # Update season if necessary
     if progress.get('season') != season:
         progress = {'season': season, 'last_club': None, 'last_player': None}
         save_progress(progress)
 
-    file_path = "/home/onyxia/work/ModelingFootballValue/players_stats_top5.csv"
-
-    # Charger les données existantes avec un index simple
-    try:
-        existing_data = pd.read_csv(file_path, low_memory=False)  
-        existing_players = set(existing_data['Player'].unique())
-    except FileNotFoundError:
-        existing_data = pd.DataFrame()
-        existing_players = set()
-
-    # Récupérer les URL des clubs
+    # Get club URLs
     club_urls = get_club_urls(top5_url, season)
     all_players_stats = pd.DataFrame()
 
-    # Identifier le point de reprise pour les clubs
-    start_club_index = 0
-    if progress['season'] == season and progress['last_club']:
-        normalized_last_club = progress['last_club'].split("/squads/")[1].split("/")[0]  # Extraire l'identifiant unique du club
-        try:
-        # Trouver le club avec le même identifiant dans la liste
-            for i, club_url in enumerate(club_urls):
-                if f"/squads/{normalized_last_club}/" in club_url:
-                    start_club_index = i
-                    print(f"Reprise à partir du club index {start_club_index}: {club_url}")
-                    break  # Arrêter la boucle une fois qu'une correspondance est trouvée
-                else:
-                    print("Aucun club correspondant trouvé. Reprise depuis le début.")
-                    start_club_index = 0
-        except Exception as e:
-            print(f"Erreur lors de la recherche du club: {e}")
-            start_club_index = 0
+    # Identify resumption point for clubs
+    start_club_index, _ = get_resumption_points(progress, season, club_urls)
 
+    # Process each club starting from the resumption index
     for club_url in club_urls[start_club_index:]:
         try:
-            print(f"Scraping club: {club_url}")
+            print(f'Scraping club: {club_url}')
             player_urls = scrape_club_players(club_url)
 
-            # Identifier le point de reprise pour les joueurs
-            start_player_index = 0
-            if progress['season'] == season and progress['last_club'] == club_url and progress['last_player']:
-                try:
-                    start_player_index = player_urls.index(progress['last_player'])
-                    print(f"Reprise à partir du joueur index {start_player_index}: {progress['last_player']}")
-                except ValueError:
-                    print("Le joueur de progression n'a pas été trouvé. Reprise depuis le début.")
-                    start_player_index = 0
+            # Identify resumption point for players
+            _, start_player_index = get_resumption_points(progress, season, club_urls, club_url, player_urls)
 
+            # Scrape stats for each player starting from the resumption index
             for player_url in player_urls[start_player_index:]:
-                print(f"Scraping player: {player_url}")
+                print(f'Scraping player: {player_url}')
                 player_stats = scrape_stats_player(player_url, existing_players)
+
+                # Append stats to the main DataFrame
                 if not player_stats.empty:
                     all_players_stats = pd.concat([all_players_stats, player_stats], ignore_index=True)
 
-                # Sauvegarder la progression après chaque joueur
+                # Save progress after each player
                 save_progress({'season': season, 'last_club': club_url, 'last_player': player_url})
 
         except Exception as e:
-            print(f"Error for club {club_url}: {e}")
+            print(f'Error for club {club_url}: {e}')
 
-    print("Scraping terminé.")
+    print('Scraping terminé.')
     if os.path.exists(CONFIG_FILE):
         os.remove(CONFIG_FILE)
 
     return all_players_stats
 
-def main_with_existing_data(season):
-    """
-    Main wrapper to handle existing data and invoke scraping for a given season.
-    """
-    file_path = "/home/onyxia/work/ModelingFootballValue/players_stats_top5.csv"
 
-    # Charger les données existantes avec un index simple
+
+def main_with_existing_data(season):
+    # Load existing data
+    file_path = 'scraping_data/results_csv/players_stats_top5.csv'
+
+    # Load existing data
     try:
-        existing_data = pd.read_csv(file_path, low_memory=False)  # Pas de multi-index
+        existing_data = pd.read_csv(file_path, low_memory=False)
         existing_players = set(existing_data['Player'].unique())
     except FileNotFoundError:
         existing_data = pd.DataFrame()
         existing_players = set()
 
-    # Initialiser avec les données existantes
+    # Initialize all_players_stats with existing data
     all_players_stats = existing_data
 
-    # Scraper les nouvelles données
+    # Scrape new data for the given season
     all_players_stats = main(season, all_players_stats, existing_players)
 
-    # Supprimer les doublons si nécessaire
+    # Remove duplicates (if necessary)
     if all_players_stats.duplicated(subset=['Player', 'Season']).any():
         all_players_stats = all_players_stats.drop_duplicates(subset=['Player', 'Season'])
 
-    # Enregistrer le dataset mis à jour
+    # Save the updated dataset back to the original file
     all_players_stats.to_csv(file_path, index=False)
 
-for season in ['2015-2016', '2016-2017', '2017-2018', '2018-2019', '2019-2020', '2020-2021', '2021-2022', '2022-2023', '2023-2024', '2024-2025']:
-    main_with_existing_data(season)
+
+
+
+
