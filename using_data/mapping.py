@@ -4,6 +4,7 @@ import pandas as pd
 import geopandas as gpd
 import folium
 import webbrowser
+import os
 
 def retrieve_page(url: str) -> bs4.BeautifulSoup:
     """
@@ -174,3 +175,26 @@ def retrieve_all_stadium_from_league(
 
     stadium_df = pd.DataFrame(all_info)
     return stadium_df
+
+def save_dataframe_to_csv(dataframe, filename, folder_path):
+    if not os.path.exists(folder_path):
+        os.makedirs(folder_path)
+
+    file_path = os.path.join(folder_path, filename)
+
+    dataframe.to_csv(file_path, index=False, encoding='utf-8')
+    print(f"Fichier CSV sauvegardé avec succès dans : {file_path}")
+
+
+# URLs for different divisions
+url_list = {
+    'L1': 'http://fr.wikipedia.org/wiki/Championnat_de_France_de_football_2024-2025',
+    'L2': 'https://fr.wikipedia.org/wiki/Championnat_de_France_de_football_de_deuxi%C3%A8me_division_2024-2025',
+}
+
+# Retrieve stadiums information for Ligue 1
+stades_ligue1 = retrieve_all_stadium_from_league(url_list, 'L1')#Download the data
+stades_ligue2 = retrieve_all_stadium_from_league(url_list, 'L2')
+
+stades = pd.concat([stades_ligue1, stades_ligue2])
+save_dataframe_to_csv(stades, 'stades.csv', 'using_data') # Save the data to a CSV file

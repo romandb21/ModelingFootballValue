@@ -45,7 +45,7 @@ def sum_att(frame):
     df = pd.read_csv(frame)
     goals_per_season = df.groupby('Season')['Performance : G+A'].sum()
     plt.figure(figsize=(10, 6))
-    plt.plot(goals_per_season.index, goals_per_season.values, marker='o', linestyle='-', color='skyblue', label='Total G+A')
+    plt.plot(goals_per_season.index, goals_per_season.values,  color='skyblue')
     plt.title('Nombre total de buts et passes décisives par saison', fontsize=14)
     plt.xlabel('Saison', fontsize=12)
     plt.ylabel('Total des buts et passes décisives (G+A)', fontsize=12)
@@ -54,4 +54,19 @@ def sum_att(frame):
     plt.legend()
     plt.tight_layout()
     plt.show()
+    
+def mean_fee(df): 
+    season_to_drop=["25/26","93/94","94/95","95/96","96/97","97/98","98/99","99/00"]
+    df=df.drop(df[df['transfer_season'].isin(season_to_drop)].index)
+    transfer_fee_season = df.groupby('transfer_season')['transfer_fee'].mean()
+    plt.figure(figsize=(10, 6))
+    sns.barplot(x=transfer_fee_season.index, y=transfer_fee_season.values, palette='icefire')
+    plt.title('Montant moyen des transferts par saison', fontsize=14)
+    plt.xlabel('Saison', fontsize=12)
+    plt.ylabel('Montant moyen des transferts', fontsize=12)
+    plt.xticks(rotation=45)
+    plt.legend()
+    plt.tight_layout()
+    plt.show()
+    
 
