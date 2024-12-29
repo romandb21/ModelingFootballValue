@@ -45,12 +45,13 @@ def sum_att(frame):
     df = pd.read_csv(frame)
     goals_per_season = df.groupby('Season')['Performance : G+A'].sum()
     plt.figure(figsize=(10, 6))
-    goals_per_season.plot(kind='bar', color='skyblue', edgecolor='black')
+    plt.plot(goals_per_season.index, goals_per_season.values, marker='o', linestyle='-', color='skyblue', label='Total G+A')
     plt.title('Nombre total de buts et passes décisives par saison', fontsize=14)
     plt.xlabel('Saison', fontsize=12)
-    plt.ylabel('Total des buts et passes décisives', fontsize=12)
+    plt.ylabel('Total des buts et passes décisives (G+A)', fontsize=12)
     plt.xticks(rotation=45)
     plt.grid(axis='y', linestyle='--', alpha=0.7)
+    plt.legend()
     plt.tight_layout()
     plt.show()
-    
+
