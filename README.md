@@ -37,18 +37,15 @@ ModelingFootballValue/
 To get started with this project, follow these steps:
 
 1. **Clone this repository**  
-   Clone the repository to your local machine using the following command:  
+Clone the repository to your local machine using the following command:
+``` 
 git clone https://github.com/romandb21/ModelingFootballValue.git
-
-
+```
 2. **Install the required packages**  
 Navigate to the project directory and install the necessary Python packages 
 
 3. **Run the project**  
 Open the jupyter notebook and enjoy!
-
-
-## Acknowledgments
 
 ## Acknowledgments
 This project was inspired by the intersection of data science and sports analytics. Special thanks to the platforms and datasets used (e.g., FBref, Transfermarkt, Football-Data.org) for providing open data to support this work.
