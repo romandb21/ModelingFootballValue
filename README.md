@@ -20,6 +20,8 @@ This project was developed as part of the programming course for second-year stu
 
 ## Project Structure  
 Here is the structure of this repository:  
+
+```
 ModelingFootballValue/
 │
 ├── Api/                  # Scripts for API interactions
@@ -29,7 +31,7 @@ ModelingFootballValue/
 ├── README.md             # Project documentation
 ├── rapport.ipynb         # Jupyter Notebook containing the project report
 └── stadiums_map.html     # HTML file visualizing stadium locations
-
+```
 
 ## Getting Started
 To get started with this project, follow these steps:
